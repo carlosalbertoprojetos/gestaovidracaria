@@ -1,0 +1,53 @@
+{% extends 'dashboard.html' %}
+
+
+{% load i18n account static crispy_forms_tags %}
+
+{% block title %}Produto{% endblock title %}
+
+
+{% block dashboard %}
+
+
+<main id="form-dash">
+    <div class="container-fluid pt-3">
+        <div class="card mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-0">
+                        <div class="col-5 card-body pb-0">
+                            <h2>{{ object.name }}</h2><br>
+                            <p>Detalhes: <b>{{ object.description | safe}}</b></p>
+                            <p>Valor: <b>R$ {{ object.price }}</b></p>
+                        </div>
+                        <div class="col-5 card-body pb-0">    
+                            {% if product.image %}
+                            <img class="card-img-top" src="media/{{produtos.image}}" alt="">
+                            {% else %}
+                            <img class="card" src="media/no_image.jpg" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="row m-1">
+                            <div class="card-body pt-0">
+                                <a href="{% url 'product:product_update' object.pk %}" class='btn btn-dark'>Editar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</main>
+
+{% block detail %}
+{% endblock %}
+
+<!-- 
+{% block socialmedia %}
+{% endblock %}
+
+{% block address %}
+{% endblock %} -->
+
+
+{% endblock %}

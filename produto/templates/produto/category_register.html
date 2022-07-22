@@ -1,0 +1,35 @@
+{% extends 'dashboard.html' %}
+
+
+{% load i18n account static crispy_forms_tags %}
+
+{% block title %}Categoria{% endblock title %}
+
+
+{% block dashboard %}
+
+
+<div class="container justify-content-center" style='margin-top:20px'>
+    <div class="card">
+        <div class="card-header">
+            <h1>Cadastrar nova categoria</h1>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {{ form|crispy }}
+                <div class="mt-2">
+                    <div class="">
+                        <input type="submit" class="btn btn-dark" value="Salvar" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,41 @@
+{% extends 'dashboard.html' %}
+
+
+{% load i18n account static crispy_forms_tags %}
+
+{% block title %}Produto{% endblock title %}
+
+
+{% block dashboard %}
+
+
+<main id="form-dash">
+    <div class="col-lg-6 col-md-12 container pt-4">
+        <div class="card ms-2">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Novo Produto
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mt-2 pb-2">
+                        <div class="">
+                            <a href="{% url 'product:category_register' %}" type="button" class="btn btn-dark" value="">Nova Categoria</a>
+                        </div>
+                    </div>
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {{ form|crispy }}
+                    <div class="mt-2">
+                        <div class="">
+                            <input type="submit" class="btn btn-dark" value="Salvar" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+</main>
+
+{% endblock %}
+

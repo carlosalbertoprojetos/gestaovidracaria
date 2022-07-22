@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'banco',
     'fornecedor',
     'cliente',
+    'produto',
 
     'django_cpf_cnpj',
     'phonenumber_field',

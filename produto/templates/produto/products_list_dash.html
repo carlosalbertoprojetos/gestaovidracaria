@@ -1,0 +1,44 @@
+{% extends 'home.html' %}
+
+
+{% block produtos %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h1 >Produtos
+                <a class='btn btn-primary float-right' href="{% url 'produto:registrar_produtos' %}">
+                Novo Produto</a></h1>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="card-deck mb-3">
+        {% for produto in object_list %}
+        <div class="card"> 
+            <div class="card-body">
+                <a href="{{ produto.get_absolute_url }}">
+                    {% if produto.image %}
+                        <img class="card-img-top" src="media/{{produto.imagem}}" alt="" style='width: 253px;
+                        height: 200px;'>
+                    {% else %}
+                        <img class="card-img-top" src="media/no_image.jpg" alt="" style='width: 253px;
+                        height: 200px;'>
+                    {% endif %}
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <a class="text-decoration-none text-dark" href="{{ produto.get_absolute_url }}">
+                    <h5 class="card-title">{{ produto.name }}</h5>
+                </a>
+                <a class="text-decoration-none text-dark" href="#">
+                    <p class="card-text font-weight-bold">R$ {{ produto.preco }}</p>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock produtos %}
+
