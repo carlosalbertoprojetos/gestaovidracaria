@@ -6,7 +6,7 @@ from .models import Banco
 class BancoAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Cadastro', {
-            'fields': (('nome_banco', 'agencia'),('conta','pix','tel_contato'))
+            'fields': (('nome_banco', 'agencia'),('conta','pix','tel_contato', 'saldo'))
         }),
         ('Endereço', {
             'classes': ('collapse',),

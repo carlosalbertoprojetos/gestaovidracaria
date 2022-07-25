@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path('', admin.site.urls),
@@ -25,5 +25,7 @@ urlpatterns = [
     path('funcionario/', include('funcionario.urls'), name='funcionario'),
     path('banco/', include('banco.urls'), name='banco'),
     path('fornecedor/', include('fornecedor.urls'), name='fornecedor'),
-    path('cliente/', include('cliente.urls'), name='cliente')
+    path('cliente/', include('cliente.urls'), name='cliente'),
+    path('produto/', include('produto.urls'), name='produto'),
+    path('movimento/', include('movimento.urls'), name='movimento'),
 ]

@@ -14,7 +14,6 @@ class Cliente(models.Model):
     
     )
 
-	num_venda = models.CharField('Número da Venda', max_length=6)
 	data_venda = models.DateTimeField('Data da Venda', auto_now_add=True)
 	nome_cliente = models.CharField('Nome Completo',max_length=200)
 	nome_contato = models.CharField('Nome Contato',max_length=200)

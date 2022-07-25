@@ -31,6 +31,10 @@ class Fornecedor(models.Model):
 	estado = models.CharField('Estado', choices=STATE_CHOICES,  max_length=2)
 	cidade = models.CharField('Cidade',max_length=100, null=True)
 	
+	class Meta:
+		ordering = ['nome_fornecedor', ]
+		verbose_name = 'Fornecedor'
+		verbose_name_plural = 'Fornecedores'
 	
 	def __str__(self):
 		return self.nome_fornecedor

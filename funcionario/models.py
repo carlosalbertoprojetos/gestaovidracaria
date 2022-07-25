@@ -25,11 +25,11 @@ class Funcionario(models.Model):
 
 	nome_empresa = models.CharField('Nome da Empresa',max_length=200)
 	nome_funcionario = models.CharField('Nome Completo',max_length=200)	
-	data_admissao = models.DateTimeField('Data Admissão')
+	data_admissao = models.DateField('Data Admissão')
 	banco = models.ForeignKey(Banco, on_delete=models.DO_NOTHING, verbose_name='Banco')
 	cargo = models.CharField('Cargo',max_length=200)
 	salario = models.CharField('Salário',max_length=200)
-	data_nascimento = models.DateTimeField('Data de Nascimento')
+	data_nascimento = models.DateField('Data de Nascimento')
 	naturalidade = models.CharField('Local de nascimento/UF', max_length=200)
 	vale_transporte = models.TextField('Vale Transporte', blank=True)
 	tel_residencial = PhoneNumberField('Telefone Residencial',unique = True, null = False, blank = False)
@@ -40,7 +40,7 @@ class Funcionario(models.Model):
 	raca_cor = models.CharField('Raça/Cor', choices=RACA_CHOICES,max_length=8)
 	email = models.EmailField('E-mail', max_length=254,unique=True)
 	rg = models.CharField('RG', max_length=7)
-	data_rg = models.DateTimeField('Data Expedição')
+	data_rg = models.DateField('Data Expedição')
 	cpf = CPFField(masked=True)
 	ctps = models.CharField('CTPS/SÉRIE/UF', max_length=50)		
 	pis = models.CharField('PIS', max_length=15)
@@ -56,7 +56,7 @@ class Funcionario(models.Model):
 	nome_mae = models.CharField('Nome da Mãe', max_length=200)
 	nome_conjuge = models.CharField('Nome do Cônjuge', max_length=200)
 	nome_filho = models.CharField('Nome do Filho', max_length=200)
-	data_nasc_filho = models.DateTimeField('Data de Nascimento do Filho')
+	data_nasc_filho = models.DateField('Data de Nascimento do Filho')
 
 
 	def __str__(self):

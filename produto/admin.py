@@ -21,7 +21,7 @@ class ProdutoAdmin(admin.ModelAdmin):
     search_fields = ('categoria', 'nome', 'disponivel')
     fieldsets = [
         ('Produto', {
-            'fields': ('categoria', 'nome', ('preco', 'disponivel', 'estoque',)),
+            'fields': (('categoria', 'nome'), ('preco', 'disponivel'), 'estoque'),
         }),
         ('Detalhes', {
             'fields': ('unimed', 'descricao',)

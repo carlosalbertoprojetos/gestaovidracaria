@@ -32,9 +32,10 @@ class Produto(models.Model):
     nome = models.CharField('Nome', max_length=255, unique=True)
     imagem = models.ImageField(
         'Imagem do produto', upload_to="produtos/%Y", blank=True)
-    unimed = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE, blank=True)
+    unimed = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE, blank=True, verbose_name='Unidade de medida')
     descricao = models.TextField('Descrição', blank=True)
-    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
+    valor = models.DecimalField('Valor de Custo', max_digits=10, decimal_places=2, default=0)
+    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2, default=0)
     disponivel = models.BooleanField('Disponível', default=True)
     estoque = models.IntegerField('Estoque', default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -57,3 +58,23 @@ class Produto(models.Model):
     def __str__(self):
         return self.nome
 
+
+# @receiver(post_save, sender=Produto)
+# def inventory_delete(sender, instance, **kwargs):
+#     produto = Produto.objects.filter(pk=instance.produto_id)
+#     for p in produto:
+#         p.estoque -= instance.quantidade
+#         p.save()
+
+#     movimento = Movimento.objects.filter(pk=instance.movimento_id)
+#     for o in movimento:
+#         print('ORDER', o)
+#     # order.total = sum
+#     # order.save()
+
+# @receiver(post_delete, sender=Produto)
+# def inventory_insert(sender, instance, **kwargs):
+#     produto = Produto.objects.filter(pk=instance.produto_id)
+#     for p in produto:
+#         p.estoque += instance.quantidade
+#         p.save()

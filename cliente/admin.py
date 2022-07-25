@@ -20,7 +20,7 @@ class ObraAdmin(admin.StackedInline):
 class ClienteAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Cadastro', {
-            'fields': (('num_venda'),('nome_cliente', 'nome_contato'),('tel_principal','tel_contato', 'email'), ('cpf', 'cnpj', 'insc_estadual'))
+            'fields': (('nome_cliente', 'nome_contato'),('tel_principal','tel_contato', 'email'), ('cpf', 'cnpj', 'insc_estadual'))
         }),
         ('Endereço', {
             'classes': ('collapse',),
