@@ -18,6 +18,8 @@ class Compra(models.Model):
     formapgto = models.CharField(
         'Forma pgto', max_length=11, choices=PGTO_CHOICES)
     imagem = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
+    total = models.DecimalField(
+        'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(
         'Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
 
@@ -33,11 +35,9 @@ class CompraProduto(models.Model):
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
     quantidade = models.IntegerField('Quantidade', null=True)
-    preço = models.DecimalField('Preço', max_digits=10, decimal_places=2)
-    detalhes = models.CharField('Detalhes', max_length=300, blank=True)
+    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
-
-
+    detalhes = models.CharField('Detalhes', max_length=300, blank=True)
 
 
 class Venda(models.Model):
@@ -49,6 +49,8 @@ class Venda(models.Model):
     formapgto = models.CharField(
         'Forma pgto', max_length=11, choices=PGTO_CHOICES)
     custo = models.DecimalField('Custo da venda', max_digits=10, decimal_places=2)
+    total = models.DecimalField(
+        'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(
         'Condição', max_length=10, choices=STATUS_CHOICES, 
         default='pendente')
@@ -77,6 +79,6 @@ class VendaProduto(models.Model):
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
     quantidade = models.IntegerField('Quantidade', null=True)
-    preço = models.DecimalField('Preço', max_digits=10, decimal_places=2)
+    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)

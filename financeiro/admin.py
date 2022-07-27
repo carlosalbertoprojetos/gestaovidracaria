@@ -2,19 +2,24 @@ from django.contrib import admin
 
 from .models import Compra, Venda
 
-from produto.models import Produto
+from financeiro.models import CompraProduto
 
 
 class CompraProdutoAdmin(admin.TabularInline):
-    model = Produto
-    # readonly_fields = ('subtotal',)
+    model = CompraProduto
+    readonly_fields = ('preco', 'subtotal',)
     extra = 3
     ...
 
 
 class CompraAdmin(admin.ModelAdmin):
-
-    # readonly_fields = ('total',)
+    model = Compra
+    fieldsets = (
+        ('Cadastro', {
+            'fields': ('data', 'fornecedor',('formapgto','imagem', 'status'), 'total',)
+        }),
+    )
+    readonly_fields = ('total',)
     inlines = [
         CompraProdutoAdmin,
     ]
