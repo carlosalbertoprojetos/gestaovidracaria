@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import Compra, Venda
-
-from financeiro.models import CompraProduto
+from .models import Compra, Venda, CompraProduto, VendaProduto
 
 
 class CompraProdutoAdmin(admin.TabularInline):
@@ -27,18 +25,23 @@ class CompraAdmin(admin.ModelAdmin):
 admin.site.register(Compra, CompraAdmin)
 
 
-# class VendaProdutoAdmin(admin.TabularInline):
-#     model = Venda
-#     readonly_fields = ('subtotal',)
-#     extra = 3
-#     ...
+class VendaProdutoAdmin(admin.TabularInline):
+    model = VendaProduto
+    readonly_fields = ('preco', 'subtotal',)
+    extra = 3
+    ...
 
 
-# class Admin(admin.ModelAdmin):
-
-#     readonly_fields = ('total',)
-#     inlines = [
-#         VendaProdutoAdmin,
-#     ]
-
-# admin.site.register(Venda, VendaProdutoAdmin)
+class VendaAdmin(admin.ModelAdmin):
+    model = Venda
+    fieldsets = (
+        ('Cadastro', {
+            'fields': (('data', 'num_venda'), 'cliente',('formapgto','custo', 'status'), 'total',)
+        }),
+    )
+    readonly_fields = ('total',)
+    inlines = [
+        VendaProdutoAdmin,
+    ]
+    ...
+admin.site.register(Venda, VendaAdmin)
