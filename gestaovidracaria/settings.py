@@ -67,7 +67,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'gestaovidracaria.urls'
 
-EMPLATES = [
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
@@ -86,13 +86,6 @@ EMPLATES = [
 SITE_ID = 1
 
 WSGI_APPLICATION = 'gestaovidracaria.wsgi.application'
-
-AUTH_USER_MODEL = 'user.User'
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
