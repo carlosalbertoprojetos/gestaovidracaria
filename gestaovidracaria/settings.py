@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import django_on_heroku
 from pathlib import Path
+import os
+#import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-$sq!ss3x6+#hmz-x8=j0i@nbq9sm6%4@8^*1+^$2v1#(qlv9y=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -53,12 +55,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
+    
 ]
 
 ROOT_URLCONF = 'gestaovidracaria.urls'
@@ -66,7 +70,7 @@ ROOT_URLCONF = 'gestaovidracaria.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,8 +83,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gestaovidracaria.wsgi.application'
+SITE_ID = 1
 
+WSGI_APPLICATION = 'gestaovidracaria.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -88,10 +93,13 @@ WSGI_APPLICATION = 'gestaovidracaria.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(os.path.join(BASE_DIR / 'db.sqlite3')),
     }
 }
 
+#if 'DATABASE_URL' in os.environ:
+#    import dj_database_url
+#    DATABASES = {'default': dj_database_url.config()}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -134,4 +142,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< HEAD
 django_on_heroku.settings(locals())
+=======
+#django_heroku.settings(locals())
+>>>>>>> 704f731ea5090015094e8908b0a777b7ea5c2f57

@@ -1,6 +1,7 @@
 # from autoslug import AutoSlugField
 from django.db import models
 from django.urls import reverse
+from fornecedor.models import Fornecedor
 
 
 class Categoria(models.Model):
@@ -17,7 +18,7 @@ class Categoria(models.Model):
 
 
 class UnidadeMedida(models.Model):
-    unidade = models.CharField('UM', max_length=10)
+    unidade = models.CharField('Un', max_length=10)
     
     def __str__(self):
         return self.unidade
@@ -29,15 +30,25 @@ class UnidadeMedida(models.Model):
 
 class Produto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    nome = models.CharField('Nome', max_length=255, unique=True)
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
+    codigo = models.CharField('Código',max_length=10)
+    nome = models.CharField('Produto', max_length=255, unique=True)
+    ncm = models.CharField('NCM',max_length=10, blank=True)
+    cst = models.CharField('CST',max_length=3, blank=True)
+    cfop = models.CharField('CFOP',max_length=4, blank=True)
+    peso_barra = models.DecimalField('Peso Barra', max_digits=10, decimal_places=2, default=0, blank=True)
+    icms_1 = models.DecimalField('ICMS Interno 1', max_digits=10, decimal_places=2, default=0, blank=True)
+    icms_2 = models.DecimalField('ICMS Interno 2', max_digits=10, decimal_places=2, default=0, blank=True)
+    ipi = models.DecimalField('IPI', max_digits=10, decimal_places=2, default=0, blank=True)
+    mva = models.CharField('MVA',max_length=3, blank=True)
     imagem = models.ImageField(
         'Imagem do produto', upload_to="produtos/%Y", blank=True)
-    unimed = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE, blank=True, verbose_name='Unidade de medida')
+    unimed = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE, verbose_name='Unidade de medida')
     descricao = models.TextField('Descrição', blank=True)
     valor = models.DecimalField('Valor de Custo', max_digits=10, decimal_places=2, default=0)
-    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2, default=0)
+    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2, default=0, blank=True)
     disponivel = models.BooleanField('Disponível', default=True)
-    estoque = models.IntegerField('Estoque', default=0)
+    quant_produto = models.DecimalField('Quantidade de Produto', max_digits=10, decimal_places=2, default=0, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
