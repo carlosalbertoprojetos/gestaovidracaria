@@ -13,8 +13,7 @@ class ObraAdmin(admin.StackedInline):
             'fields': (('logradouro_obra'),('numero_obra','complemento_obra'),('cep_obra','estado_obra','cidade_obra')),
         }),
     )
-    extra = 0
-    ...
+    extra = 0    
 
 
 class ClienteAdmin(admin.ModelAdmin):

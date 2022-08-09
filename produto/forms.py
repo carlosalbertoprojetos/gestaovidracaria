@@ -6,10 +6,11 @@ from .models import Produto
 class ProdutoForm(forms.ModelForm):
     fieldsets = [
         ('Identificação', {'fields': [
-            ('categoria', 'nome'),
+            ('categoria', 'fornecedor','codigo','nome', 'ncm', 'cst', 'cfop', 'peso_barra',
+                'icms_1','icms_2', 'ipi', 'mva'),
         ]}),
         ('Detalhes', {'fields': [
-            ('preco', 'disponivel', 'estoque'),
+            ('preco','disponivel', 'estoque'),
             'descricao', 
         ]}),
         
@@ -24,7 +25,3 @@ class ProdutoForm(forms.ModelForm):
         fields = '__all__'
         # exclude = ['user',]
         readonly_fields = ['created_at', 'updated_at']
-
-
-
-
