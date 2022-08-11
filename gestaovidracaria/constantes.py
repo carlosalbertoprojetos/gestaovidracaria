@@ -8,21 +8,22 @@ STATE_CHOICES = (
     )
 
 TYPE = [
-    ('Compra', 'compra'),
-    ('Venda', 'venda'),
-    ('Outros', 'outros')
+    ('Compra', 'Compra'),
+    ('Venda', 'Venda'),
+    ('Outros', 'Outros')
 ]
 
    
 STATUS_CHOICES = [
-    ('Pendente', 'pendente'),
-    ('Aguardando', 'aguardando'),
-    ('Entregue', 'entregue'),
-    ('Cancelado', 'cancelado'),
+    ('Pendente', 'Pendente'),
+    ('Aguardando', 'Aguardando'),
+    ('Entregue', 'Entregue'),
+    ('Cancelado', 'Cancelado'),
 ]
 
 PGTO_CHOICES = [
-    ("Pix", "pix"),
-    ("Cartão", "cartão"),
-    ("Dinheiro", "dinheiro"),
+    ("Pix", "Pix"),
+    ("Cartão", "Cartão"),
+    ("Dinheiro", "Dinheiro"),
+    ("Cheque", "Cheque"),
 ]

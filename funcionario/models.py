@@ -1,3 +1,4 @@
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from django_cpf_cnpj.fields import CNPJField, CPFField
 from phonenumber_field.modelfields import PhoneNumberField
@@ -27,15 +28,14 @@ class Funcionario(models.Model):
 	nome_funcionario = models.CharField('Nome Completo',max_length=200)	
 	data_admissao = models.DateField('Data Admissão')
 	
-	banco = models.ForeignKey(Banco, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)
-	
+	banco = models.ForeignKey(Banco, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)	
 	cargo = models.CharField('Cargo',max_length=200, blank=True)
 	salario = models.CharField('Salário',max_length=200, blank=True)
 	data_nascimento = models.DateField('Data de Nascimento')
 	naturalidade = models.CharField('Local de nascimento/UF', max_length=200, blank=True)
 	vale_transporte = models.TextField('Vale Transporte', blank=True)
-	tel_residencial = PhoneNumberField('Telefone Residencial',unique = True, blank=True)
-	tel_celular = PhoneNumberField('Telefone Celular',unique = True, blank=True)
+	tel_residencial = models.CharField('Telefone Residencial',max_length=11, unique = True, blank=True)
+	tel_celular = models.CharField('Telefone Celular',max_length=11, unique = True, blank=True)
 	escolaridade = models.CharField('Escolaridade', max_length=200, blank=True)
 	estado_civil = models.CharField('Estado Civil',max_length=50, blank=True)
 	sexo = models.CharField('Sexo', choices=SEXO_CHOICES, max_length=18, blank=True)
@@ -62,12 +62,10 @@ class Funcionario(models.Model):
 	def __str__(self):
 		return self.nome_funcionario
 
-
 class Filho(models.Model):
 	funcionario = models.ForeignKey(Funcionario, on_delete=models.DO_NOTHING, verbose_name='Funcionario')
 	nome_filho = models.CharField('Nome do Filho', max_length=200, blank=True)
 	data_nasc_filho = models.DateField('Data de Nascimento do Filho')
-
 	
 	def __str__(self):
 		return self.nome_filho

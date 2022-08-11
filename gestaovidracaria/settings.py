@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-import django_on_heroku
+#import django_on_heroku
 from pathlib import Path
 import os
 
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,9 +49,9 @@ INSTALLED_APPS = [
     'produto',
     'movimento',
     'financeiro',
-
-    'django_cpf_cnpj',
-    'phonenumber_field',
+    #'django_cpf_cnpj',
+    #'phonenumber_field',    
+        
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages',                
             ],
         },
     },
@@ -142,6 +143,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+GRAPPELLI_ADMIN_TITLE = 'Gestão Vidraçaria'
 
-django_on_heroku.settings(locals())
+#django_on_heroku.settings(locals())
 

@@ -6,11 +6,10 @@ from .models import Fornecedor
 class FornecedorAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Cadastro', {
-            'fields': (('nome_fornecedor','nome_contato'),('banco','tel_principal','tel_contato'), ('email','cnpj','insc_estadual'))
+            'fields': (('nome_fornecedor','nome_contato'),('cnpj','insc_estadual'),('tel_principal','tel_contato'),('email', 'banco'))
         }),
-        ('Endereço', {
-            'classes': ('collapse',),
-            'fields': (('logradouro'),('numero','complemento'),('cep','estado','cidade')),
+        ('Endereço', {            
+            'fields': (('logradouro','numero'),('complemento','cep'),('cidade','estado')),
         }),
     )
        

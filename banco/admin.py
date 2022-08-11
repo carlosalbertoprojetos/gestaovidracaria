@@ -6,13 +6,11 @@ from .models import Banco
 class BancoAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Cadastro', {
-            'fields': (('nome_banco', 'agencia'),('conta','pix','tel_contato', 'saldo'))
+            'fields': (('nome_banco', 'agencia'),('conta','saldo'),('tel_contato','pix'))
         }),
-        ('Endereço', {
-            'classes': ('collapse',),
-            'fields': (('logradouro','numero','complemento'),('cep','estado','cidade')),
+        ('Endereço', {            
+            'fields': (('logradouro','numero'),('complemento','cep'),('cidade', 'estado')),
         }),
-    )
-       
+    )       
 
 admin.site.register(Banco, BancoAdmin)

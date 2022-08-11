@@ -16,16 +16,18 @@ class CategoraAdmin(admin.ModelAdmin):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    #list_display = ['categoria','fornecedor', 'nome','preco','disponivel', 'estoque', 'descricao']
+    #list_display = ['categoria','fornecedor', 'nome','preco', 'valor','disponivel', 'estoque', 'descricao']
     #list_filter = ['categoria', 'nome', 'disponivel', 'created_at', 'updated']
     #search_fields = ('categoria', 'nome', 'disponivel')
     fieldsets = [
         ('Produto', {
-            'fields': ('categoria', 'fornecedor', ('codigo', 'nome'), ('preco','disponivel',),
-                ('ncm','cst','cfop', 'mva'),('peso_barra','icms_1','ipi', 'icms_2')),
+            'fields': (('codigo','nome'), ('ncm','cst'),('cfop', 'mva'),
+            ('categoria', 'fornecedor'),
+             ('valor','preco'), ('peso_barra','icms_1'),('ipi', 'icms_2'),
+             'disponivel'),
         }),
         ('Detalhes', {
-            'fields': ('unimed', 'quant_produto','descricao', 'imagem')
+            'fields': ('unimed', 'quant_produto','imagem', 'descricao')
         }),
     ]
     
