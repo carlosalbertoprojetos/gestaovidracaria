@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from gestaovidracaria.constantes import STATUS_CHOICES, PGTO_CHOICES
-
+from gestaovidracaria.constantes import STATUS_CHOICES, PGTO_CHOICES 
+# CONTA_OPERACAO_CHOICES, CONTA_STATUS_CHOICES
 
 from produto.models import Produto
 from cliente.models import Cliente
@@ -69,7 +69,6 @@ def estoque_venda(sender, instance, **kwargs):
         p.save()
         instance.venda.total += instance.subtotal
         instance.venda.save()
-
 
 
 class VendaProduto(models.Model):

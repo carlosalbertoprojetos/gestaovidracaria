@@ -21,11 +21,11 @@ class ProdutoAdmin(admin.ModelAdmin):
     #search_fields = ('categoria', 'nome', 'disponivel')
     fieldsets = [
         ('Produto', {
-            'fields': ('categoria', 'fornecedor', ('codigo', 'nome'), ('preco','disponivel',),
-                ('ncm','cst','cfop', 'mva'),('peso_barra','icms_1','ipi', 'icms_2')),
+            'fields': ('fornecedor', ('codigo', 'categoria', 'nome')),
+        #         ('ncm','cst','cfop', 'mva'),('peso_barra','icms_1','ipi', 'icms_2')),
         }),
         ('Detalhes', {
-            'fields': ('unimed', 'quant_produto','descricao', 'imagem')
+            'fields': ('unimed', 'quant_produto', 'disponivel','descricao', 'imagem')
         }),
     ]
     

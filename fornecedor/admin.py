@@ -1,12 +1,11 @@
 from django.contrib import admin
 from .models import Fornecedor
 
-# Register your models here.
 
 class FornecedorAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Cadastro', {
-            'fields': (('nome_fornecedor','nome_contato'),('banco','tel_principal','tel_contato'), ('email','cnpj','insc_estadual'))
+            'fields': (('nome','contato'),('conta','tel_principal','tel_contato'), ('email','cnpj','insc_estadual'))
         }),
         ('Endereço', {
             'classes': ('collapse',),
@@ -16,4 +15,3 @@ class FornecedorAdmin(admin.ModelAdmin):
        
 
 admin.site.register(Fornecedor, FornecedorAdmin)
-

@@ -1,33 +1,18 @@
 from django.db import models
 from django_cpf_cnpj.fields import CNPJField, CPFField
 from phonenumber_field.modelfields import PhoneNumberField
+from gestaovidracaria.constantes import STATE_CHOICES, SEXO_CHOICES, RACA_CHOICES
 # Create your models here.
 
-from banco.models import Banco
+from conta.models import Conta
 
 class Funcionario(models.Model):
-
-	STATE_CHOICES = (
-		('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'),
-		('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'),
-		('MG','MG'), ('PA','PA'), ('PB','PB'), ('PE','PE'), ('PI','PI'), ('PR','PR'), 
-		('RJ','RJ'), ('RN','RN'), ('RO','RO'), ('RR','RR'), ('RS','RS'), ('SC','SC'), 
-		('SE','SE'), ('SP','SP'), ('TO','TO'),
-		)
-
-	SEXO_CHOICES = (
-		('M','M'), ('F','F'), ('OUTRO','OUTRO'), ('PREFIRO NÃO DIZER','PREFIRO NÃO DIZER'),
-	)
-	
-	RACA_CHOICES = (
-    	('BRANCA','BRANCA'), ('PRETA','PRETA'), ('PARDA','PARDA'), ('AMARELA','AMARELA'), ('INDÍGENA','INDÍGENA'),
-    )
 
 	nome_empresa = models.CharField('Nome da Empresa',max_length=200)
 	nome_funcionario = models.CharField('Nome Completo',max_length=200)	
 	data_admissao = models.DateField('Data Admissão')
 	
-	banco = models.ForeignKey(Banco, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)
+	banco = models.ForeignKey(Conta, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)
 	
 	cargo = models.CharField('Cargo',max_length=200, blank=True)
 	salario = models.CharField('Salário',max_length=200, blank=True)

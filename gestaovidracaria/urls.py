@@ -21,12 +21,12 @@ urlpatterns = [
     path('', admin.site.urls),
 
     # apps
-    path('usuario/', include('usuario.urls'), name='usuario'),
-    path('funcionario/', include('funcionario.urls'), name='funcionario'),
-    path('banco/', include('banco.urls'), name='banco'),
-    path('fornecedor/', include('fornecedor.urls'), name='fornecedor'),
-    path('cliente/', include('cliente.urls'), name='cliente'),
-    path('produto/', include('produto.urls'), name='produto'),
-    path('movimento/', include('movimento.urls'), name='movimento'),
-    path('financeiro/', include('financeiro.urls'), name='financeiro'),
+    path('', include('usuario.urls'), name='usuario'),
+    path('', include('funcionario.urls'), name='funcionario'),
+    path('', include('conta.urls'), name='conta'),
+    path('', include('fornecedor.urls'), name='fornecedor'),
+    path('', include('cliente.urls'), name='cliente'),
+    path('', include('produto.urls'), name='produto'),
+    path('', include('movimento.urls'), name='movimento'),
+    path('', include('financeiro.urls'), name='financeiro'),
 ]

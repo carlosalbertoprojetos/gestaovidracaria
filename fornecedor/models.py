@@ -1,24 +1,16 @@
 from django.db import models
 from django_cpf_cnpj.fields import CNPJField, CPFField
 from phonenumber_field.modelfields import PhoneNumberField
+from gestaovidracaria.constantes import STATE_CHOICES
 
-from banco.models import Banco
+from conta.models import Conta
 # Create your models here.
 
 class Fornecedor(models.Model):
 
-	STATE_CHOICES = (
-		('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'),
-		('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'),
-		('MG','MG'), ('PA','PA'), ('PB','PB'), ('PE','PE'), ('PI','PI'), ('PR','PR'), 
-		('RJ','RJ'), ('RN','RN'), ('RO','RO'), ('RR','RR'), ('RS','RS'), ('SC','SC'), 
-		('SE','SE'), ('SP','SP'), ('TO','TO'),
-    
-    )
-
-	nome_fornecedor = models.CharField('Nome Fornecedor',max_length=200)
-	nome_contato = models.CharField('Nome Contato',max_length=200)
-	banco = models.ForeignKey(Banco, on_delete=models.DO_NOTHING, verbose_name='Banco')
+	nome = models.CharField('Fornecedor',max_length=200)
+	contato = models.CharField('Nome do Contato',max_length=200)
+	conta = models.ForeignKey(Conta, on_delete=models.DO_NOTHING, verbose_name='Banco')
 	tel_principal = PhoneNumberField('Telefone Principal',unique = True, blank=True)
 	tel_contato = PhoneNumberField('Telefone Contato',unique = True, blank=True)
 	email = models.EmailField('E-mail', max_length=254,unique=True, blank=True)	
@@ -32,9 +24,20 @@ class Fornecedor(models.Model):
 	cidade = models.CharField('Cidade',max_length=100, null=True, blank=True)
 	
 	class Meta:
-		ordering = ['nome_fornecedor', ]
+		ordering = ['nome', ]
 		verbose_name = 'Fornecedor'
 		verbose_name_plural = 'Fornecedores'
 	
 	def __str__(self):
-		return self.nome_fornecedor
+		return self.nome
+
+
+class HistoricoFornecedor(models.Model):
+        
+    descricao = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ('descricao',)
+
+    def __unicode__(self):
+        return self.descricao

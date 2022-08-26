@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     
     'usuario',
     'funcionario',
-    'banco',
+    'conta',
     'fornecedor',
     'cliente',
     'produto',
