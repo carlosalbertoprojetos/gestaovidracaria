@@ -19,7 +19,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
 
     # apps
     path('', include('usuario.urls'), name='usuario'),

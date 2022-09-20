@@ -1,7 +1,4 @@
-from unittest.util import _MAX_LENGTH
 from django.db import models
-from django_cpf_cnpj.fields import CNPJField, CPFField
-from phonenumber_field.modelfields import PhoneNumberField
 from gestaovidracaria.constantes import STATE_CHOICES, SEXO_CHOICES, RACA_CHOICES
 # Create your models here.
 
@@ -12,13 +9,7 @@ class Funcionario(models.Model):
 	nome_empresa = models.CharField('Nome da Empresa',max_length=200)
 	nome_funcionario = models.CharField('Nome Completo',max_length=200)	
 	data_admissao = models.DateField('Data Admissão')
-	
-<<<<<<< HEAD
 	banco = models.ForeignKey(Conta, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)
-	
-=======
-	banco = models.ForeignKey(Banco, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)	
->>>>>>> 310688f0f231acf7acc6d9d74faf3c3ecfec611b
 	cargo = models.CharField('Cargo',max_length=200, blank=True)
 	salario = models.CharField('Salário',max_length=200, blank=True)
 	data_nascimento = models.DateField('Data de Nascimento')
@@ -34,7 +25,6 @@ class Funcionario(models.Model):
 	rg = models.CharField('RG', max_length=7, blank=True)
 	data_rg = models.DateField('Data Expedição')	
 	cpf = models.CharField('CPF', max_length=14,unique = True, blank = True)
-	#cpf = CPFField(masked=True)
 	ctps = models.CharField('CTPS/SÉRIE/UF', max_length=50, blank=True)		
 	pis = models.CharField('PIS', max_length=15, blank=True)
 	titulo_eleitor = models.CharField('TITULO/SEÇÃO/ZONA/UF', max_length=200, blank=True)

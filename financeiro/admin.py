@@ -13,7 +13,6 @@ class CompraProdutoAdmin(admin.TabularInline):
 
 class CompraPrestacaoAdmin(admin.TabularInline):
     model = CompraPrestacao
-    # readonly_fields = ('prestacao', 'vencimento', 'pago', 'pagamento',)
     extra = 1
     ...
 

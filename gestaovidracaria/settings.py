@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'movimento',
     'financeiro',
     #'django_cpf_cnpj',
-    #'phonenumber_field',    
+    #'phonenumber_field',
+
         
 ]
 

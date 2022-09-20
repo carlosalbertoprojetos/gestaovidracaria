@@ -46,6 +46,10 @@ class CompraPrestacao(models.Model):
     vencimento = models.DateField('Vencimento')
     pagamento = models.DateField('Pagamento')
     
+    class Meta:
+        verbose_name = 'Prestação'
+        verbose_name_plural = 'Prestações'
+    
 
 class Venda(models.Model):
     data = models.DateField('Data')
@@ -96,3 +100,7 @@ class VendaPrestacao(models.Model):
     valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
     vencimento = models.DateField('Vencimento')
     pagamento = models.DateField('Pagamento')
+    
+    class Meta:
+        verbose_name = 'Prestação'
+        verbose_name_plural = 'Prestações'
