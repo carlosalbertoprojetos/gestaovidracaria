@@ -1,6 +1,6 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 from gestaovidracaria.constantes import STATUS_CHOICES, PGTO_CHOICES 
 # CONTA_OPERACAO_CHOICES, CONTA_STATUS_CHOICES
 
@@ -9,9 +9,7 @@ from cliente.models import Cliente
 from fornecedor.models import Fornecedor
 
 
-
 class Compra(models.Model):
-
     data = models.DateField('Data')
     fornecedor = models.ForeignKey(
         Fornecedor, on_delete=models.DO_NOTHING)
@@ -21,7 +19,9 @@ class Compra(models.Model):
     total = models.DecimalField(
         'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(
-        'Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
+        'Condição da entrega', max_length=10, choices=STATUS_CHOICES, default='pendente')
+    pgto_avista = models.DecimalField(
+        'Valor a vista', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
 
     class Meta:
         verbose_name = 'Compra'
@@ -29,7 +29,6 @@ class Compra(models.Model):
 
 
 class CompraProduto(models.Model):
-
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
@@ -38,10 +37,17 @@ class CompraProduto(models.Model):
     preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
+    
 
+class CompraPrestacao(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    prestacao = models.CharField('Parcela', max_length=5)
+    valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
+    vencimento = models.DateField('Vencimento')
+    pagamento = models.DateField('Pagamento')
+    
 
 class Venda(models.Model):
-
     data = models.DateField('Data')
     cliente = models.ForeignKey(
         Cliente, on_delete=models.DO_NOTHING)
@@ -52,27 +58,28 @@ class Venda(models.Model):
     total = models.DecimalField(
         'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(
-        'Condição', max_length=10, choices=STATUS_CHOICES, 
+        'Condição da entrega', max_length=10, choices=STATUS_CHOICES, 
         default='pendente')
+    pgto_avista = models.DecimalField(
+        'Valor a vista', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
 
     class Meta:
         verbose_name = 'Venda'
         verbose_name_plural = 'Vendas'
 
 
-@receiver(post_save, sender=Venda)
-def estoque_venda(sender, instance, **kwargs):    
-    produto = Produto.objects.filter(pk=instance.produto_id)
+# @receiver(post_save, sender=Venda)
+# def estoque_venda(sender, instance, **kwargs):    
+#     produto = Produto.objects.filter(pk=instance.produto_id)
 
-    for p in produto:
-        p.estoque -= instance.quantidade
-        p.save()
-        instance.venda.total += instance.subtotal
-        instance.venda.save()
+#     for p in produto:
+#         p.estoque -= instance.quantidade
+#         p.save()
+#         instance.venda.total += instance.subtotal
+#         instance.venda.save()
 
 
 class VendaProduto(models.Model):
-
     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
@@ -81,3 +88,11 @@ class VendaProduto(models.Model):
     preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
+    
+
+class VendaPrestacao(models.Model):
+    venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
+    prestacao = models.CharField('Parcela', max_length=5)
+    valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
+    vencimento = models.DateField('Vencimento')
+    pagamento = models.DateField('Pagamento')
