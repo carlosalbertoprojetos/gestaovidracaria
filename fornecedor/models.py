@@ -7,7 +7,6 @@ from conta.models import Conta
 # Create your models here.
 
 class Fornecedor(models.Model):
-
 	nome = models.CharField('Fornecedor',max_length=200)
 	contato = models.CharField('Nome do Contato',max_length=200)
 	conta = models.ForeignKey(Conta, on_delete=models.DO_NOTHING, verbose_name='Banco')

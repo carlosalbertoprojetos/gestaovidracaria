@@ -16,7 +16,7 @@ class CategoraAdmin(admin.ModelAdmin):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    #list_display = ['categoria','fornecedor', 'nome','preco','disponivel', 'estoque', 'descricao']
+    #list_display = ['categoria','fornecedor', 'nome','preco', 'valor','disponivel', 'estoque', 'descricao']
     #list_filter = ['categoria', 'nome', 'disponivel', 'created_at', 'updated']
     #search_fields = ('categoria', 'nome', 'disponivel')
     fieldsets = [

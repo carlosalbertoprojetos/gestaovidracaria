@@ -8,11 +8,9 @@ class ContaAdmin(admin.ModelAdmin):
         ('Cadastro', {
             'fields': (('nome', 'agencia'),('conta','pix','tel_contato', 'saldo'))
         }),
-        ('Endereço', {
-            'classes': ('collapse',),
-            'fields': (('logradouro','numero','complemento'),('cep','estado','cidade')),
+        ('Endereço', {            
+            'fields': (('logradouro','numero'),('complemento','cep'),('cidade', 'estado')),
         }),
-    )
-       
+    )       
 
 admin.site.register(Conta, ContaAdmin)

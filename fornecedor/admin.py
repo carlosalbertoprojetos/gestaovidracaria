@@ -7,9 +7,8 @@ class FornecedorAdmin(admin.ModelAdmin):
         ('Cadastro', {
             'fields': (('nome','contato'),('conta','tel_principal','tel_contato'), ('email','cnpj','insc_estadual'))
         }),
-        ('Endereço', {
-            'classes': ('collapse',),
-            'fields': (('logradouro'),('numero','complemento'),('cep','estado','cidade')),
+        ('Endereço', {            
+            'fields': (('logradouro','numero'),('complemento','cep'),('cidade','estado')),
         }),
     )
        
