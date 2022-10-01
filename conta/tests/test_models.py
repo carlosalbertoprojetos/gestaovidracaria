@@ -42,8 +42,8 @@ class ContaTestCase(TestCase):
         teste_cadastro = Conta.objects.get(nome='Caixa')
         self.assertEquals(teste_cadastro.__str__(), 'Caixa')
         print(
-            'Nome', teste_cadastro.nome,'\n'
-            'agencia', teste_cadastro.agencia,'\n'
+            'Nome: ', teste_cadastro.nome,'\n'
+            'agencia: ', teste_cadastro.agencia,'\n'
             'conta', teste_cadastro.conta,'\n'
             'saldo', teste_cadastro.saldo,'\n'
             'tel_contato', teste_cadastro.tel_contato,'\n'
