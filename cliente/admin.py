@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Cliente, Obra
 
+
 class ObraAdmin(admin.StackedInline):
     model = Obra
     fieldsets = (

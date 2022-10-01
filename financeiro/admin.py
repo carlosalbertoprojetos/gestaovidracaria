@@ -20,7 +20,7 @@ class CompraAdmin(admin.ModelAdmin):
     model = Compra
     fieldsets = (
         ('Cadastro', {
-            'fields': ('data', 'fornecedor',('formapgto','imagem', 'status'), 'total', 'pgto_avista',)
+            'fields': ('data', 'fornecedor',('formapgto','imagem', 'status'), ('pgto_avista', 'total'))
         }),
     )
     readonly_fields = ('total',)
@@ -45,9 +45,14 @@ class VendaPrestacaoAdmin(admin.TabularInline):
 
 class VendaAdmin(admin.ModelAdmin):
     model = Venda
+    # fieldsets = (
+    #     ('Cadastro', {
+    #         'fields': (('data', 'num_venda'), 'cliente',('formapgto','custo', 'status'), 'total', 'pgto_avista',)
+    #     }),
+    # )
     fieldsets = (
         ('Cadastro', {
-            'fields': (('data', 'num_venda'), 'cliente',('formapgto','custo', 'status'), 'total', 'pgto_avista',)
+            'fields': ('cliente',('data', 'num_venda'), ('formapgto','imagem'), ('custo', 'status'), ('pgto_avista', 'total'))
         }),
     )
     readonly_fields = ('total',)

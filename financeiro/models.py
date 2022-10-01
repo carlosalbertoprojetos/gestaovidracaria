@@ -59,6 +59,7 @@ class Venda(models.Model):
     formapgto = models.CharField(
         'Forma pgto', max_length=11, choices=PGTO_CHOICES)
     custo = models.DecimalField('Custo da venda', max_digits=10, decimal_places=2)
+    imagem = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
     total = models.DecimalField(
         'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(

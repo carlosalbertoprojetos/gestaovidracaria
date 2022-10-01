@@ -41,7 +41,19 @@ class ContaTestCase(TestCase):
     def test_cadastro_conta(self):
         teste_cadastro = Conta.objects.get(nome='Caixa')
         self.assertEquals(teste_cadastro.__str__(), 'Caixa')
-        print(teste_cadastro)
+        print(
+            'Nome', teste_cadastro.nome,'\n'
+            'agencia', teste_cadastro.agencia,'\n'
+            'conta', teste_cadastro.conta,'\n'
+            'saldo', teste_cadastro.saldo,'\n'
+            'tel_contato', teste_cadastro.tel_contato,'\n'
+            'logradouro', teste_cadastro.logradouro,'\n'
+            'numero', teste_cadastro.numero,'\n'
+            'complemento', teste_cadastro.complemento,'\n'
+            'cep', teste_cadastro.cep,'\n'
+            'estado', teste_cadastro.estado,'\n'
+            'cidade', teste_cadastro.cidade
+        )
 
 # para rodar o teste somente sa aplicação
 # py manage.py test conta

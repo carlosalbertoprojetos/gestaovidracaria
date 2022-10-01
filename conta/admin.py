@@ -6,11 +6,12 @@ from .models import Conta
 class ContaAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Cadastro', {
-            'fields': (('nome', 'agencia'),('conta','pix','tel_contato', 'saldo'))
+            'fields': (('nome', 'agencia'),('conta','pix'),('tel_contato', 'saldo'))
         }),
         ('Endereço', {            
             'fields': (('logradouro','numero'),('complemento','cep'),('cidade', 'estado')),
         }),
-    )       
+    )
+    readonly_fields = ('saldo',)
 
 admin.site.register(Conta, ContaAdmin)

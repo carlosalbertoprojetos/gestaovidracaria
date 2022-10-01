@@ -12,17 +12,18 @@ class Movimento(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.DO_NOTHING)
     operacao = models.CharField('Operação', max_length=6, choices=TYPE)
     data = models.DateField('Data')
-    total = models.DecimalField(
-        'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
+    # total = models.DecimalField(
+        # 'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(
         'Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
+    local = models.CharField('Local', max_length=6)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated = models.DateTimeField('Atualizado em', auto_now=True)
 
     class Meta:
         ordering = ['-created_at', ]
-        verbose_name = 'Movimento'
-        verbose_name_plural = 'Movimento'
+        verbose_name = 'Movimentação de Estoque'
+        verbose_name_plural = 'Movimentação de Estoque'
 
     # def get_absolute_url_client_list(self):
     #     return reverse('order:orders_client_list', args=[self.client.pk])
@@ -56,8 +57,8 @@ def movimento_estoque(sender, instance, **kwargs):
         else:
             p.estoque -= instance.quantidade
         p.save()
-        instance.total += instance.subtotal
-        instance.save()
+        # instance.total += instance.subtotal
+        # instance.save()
 
 
 class ProdutoMovimento(models.Model):
@@ -67,9 +68,9 @@ class ProdutoMovimento(models.Model):
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
     quantidade = models.IntegerField('Quantidade', null=True)
-    preço = models.DecimalField('Preço', max_digits=10, decimal_places=2)
+    # preço = models.DecimalField('Preço', max_digits=10, decimal_places=2)
     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
-    subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
+    # subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
 
 
 @receiver(post_save, sender=ProdutoMovimento)
