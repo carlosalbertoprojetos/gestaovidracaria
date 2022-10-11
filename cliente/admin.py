@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Cliente, Obra
 
 
-class ObraAdmin(admin.StackedInline):
+class ObraAdmin(admin.TabularInline):
     model = Obra
     fieldsets = (
         ('Contato', {

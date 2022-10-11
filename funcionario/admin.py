@@ -3,13 +3,13 @@ from .models import Funcionario, Filho
 
 # Register your models here.
 
-class FilhoAdmin(admin.StackedInline):
+class FilhoAdmin(admin.TabularInline):
     model = Filho
     
-    fieldsets = ('', {            
-            'fields': ('nome_filho','data_nasc_filho')
-        }),
-    extra = 1    
+    # fieldsets = ('', {            
+    #         'fields': ('nome_filho','data_nasc_filho')
+    #     }),
+    extra = 1
 
 class FuncionarioAdmin(admin.ModelAdmin):
     fieldsets = (

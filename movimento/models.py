@@ -12,8 +12,8 @@ class Movimento(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.DO_NOTHING)
     operacao = models.CharField('Operação', max_length=6, choices=TYPE)
     data = models.DateField('Data')
-    # total = models.DecimalField(
-        # 'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
+    total = models.DecimalField(
+        'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField(
         'Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
     local = models.CharField('Local', max_length=6)
@@ -48,15 +48,15 @@ class Movimento(models.Model):
         return str(self.id)
 
 
-@receiver(post_save, sender=Movimento)
-def movimento_estoque(sender, instance, **kwargs):    
-    produto = Produto.objects.filter(movimento_id=instance.id)
-    for p in produto:
-        if instance.operacao == 'Compra':
-            p.estoque += instance.quantidade
-        else:
-            p.estoque -= instance.quantidade
-        p.save()
+# @receiver(post_save, sender=Movimento)
+# def movimento_estoque(sender, instance, **kwargs):
+#     produto = Produto.objects.filter(id=instance.produto.id)
+#     for p in produto:
+#         if instance.operacao == 'Compra':
+#             p.quant_produto += instance.quantidade
+#         else:
+#             p.quant_produto -= instance.quantidade
+#         p.save()
         # instance.total += instance.subtotal
         # instance.save()
 
@@ -68,20 +68,21 @@ class ProdutoMovimento(models.Model):
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
     quantidade = models.IntegerField('Quantidade', null=True)
-    # preço = models.DecimalField('Preço', max_digits=10, decimal_places=2)
+    preco = models.DecimalField('Preço', max_digits=10, decimal_places=2, default=0)
     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
-    # subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
+    subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
 
 
 @receiver(post_save, sender=ProdutoMovimento)
 def inventory_delete(sender, instance, **kwargs):
     produto = Produto.objects.filter(pk=instance.produto_id)
-    instance.subtotal = instance.preço * instance.quantidade
+    instance.subtotal = produto.quantidade * produto.preco
+    # instance.subtotal = instance.preco * instance.quantidade
     instance.movimento.total += instance.subtotal
     instance.movimento.save()
         
     for p in produto:
-        p.estoque -= instance.quantidade
+        p.quant_produto -= instance.quantidade
         p.save()
 
 
@@ -89,7 +90,7 @@ def inventory_delete(sender, instance, **kwargs):
 def inventory_insert(sender, instance, **kwargs):
     produto = Produto.objects.filter(pk=instance.produto_id)
     for p in produto:
-        p.estoque += instance.quantidade
+        p.quant_produto += instance.quantidade
         p.save()
 
 
