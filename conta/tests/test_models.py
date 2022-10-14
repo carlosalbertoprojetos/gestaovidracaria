@@ -2,26 +2,9 @@ from django.test import TestCase
 
 from ..models import Conta
 
-# automatizar testes
-# import doctest
-
-# def function(x):
-#     return x**2
-
-# doctest.testmod()
 
 
-
-# class ContaTestCase(TestCase):
-    
-#     def test_conta_novo_cadastro(self):
-#         self.assertEqual(1,21)
-
-#     def test_teste(self):
-#         self.assertEqual(21,21)
-
-
-class ContaTestCase(TestCase):
+class ContaNovaTestCase(TestCase):
     # executa sempre antes de iniciar o teste
     def setUp(self):
         Conta.objects.create(
@@ -38,9 +21,10 @@ class ContaTestCase(TestCase):
             cidade='Ibiá'
         )
     
-    def test_cadastro_conta(self):
+    def test_nova_conta(self):
         teste_cadastro = Conta.objects.get(nome='Caixa')
         self.assertEquals(teste_cadastro.__str__(), 'Caixa')
+
         print(
             'Nome:', teste_cadastro.nome,'\n'
             'agencia:', teste_cadastro.agencia,'\n'
@@ -54,8 +38,3 @@ class ContaTestCase(TestCase):
             'estado', teste_cadastro.estado,'\n'
             'cidade', teste_cadastro.cidade
         )
-
-# para rodar o teste somente sa aplicação
-# py manage.py test conta
-
-    

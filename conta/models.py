@@ -5,7 +5,6 @@ from gestaovidracaria.constantes import STATE_CHOICES
 
 
 class Conta(models.Model):
-
 	nome = models.CharField('Banco',max_length=30)
 	agencia = models.CharField('Agência',max_length=30)
 	conta = models.CharField('Nome da Conta',max_length=30)	

@@ -19,12 +19,12 @@ from django.urls import include, path
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
-    path('', admin.site.urls),
+    path('admin/', admin.site.urls),
 
     # apps
     path('', include('usuario.urls'), name='usuario'),
     path('', include('funcionario.urls'), name='funcionario'),
-    path('', include('conta.urls'), name='conta'),
+    path('conta/', include('conta.urls'), name='conta'),
     path('', include('fornecedor.urls'), name='fornecedor'),
     path('', include('cliente.urls'), name='cliente'),
     path('', include('produto.urls'), name='produto'),
