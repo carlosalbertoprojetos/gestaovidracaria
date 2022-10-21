@@ -42,7 +42,7 @@ class Produto(models.Model):
     # ipi = models.DecimalField('IPI', max_digits=10, decimal_places=2, default=0, blank=True)
     mva = models.CharField('MVA',max_length=3, blank=True)
     imagem = models.ImageField(
-        'Imagem do produto', upload_to="produtos/%Y", blank=True)
+        'Imagem do produto', upload_to="produto/imagens/%Y", blank=True)
     unimed = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE, verbose_name='Unidade de medida')
     descricao = models.TextField('Descrição', blank=True)
     valor = models.DecimalField('Valor de Custo', max_digits=10, decimal_places=2, default=0, blank=True)

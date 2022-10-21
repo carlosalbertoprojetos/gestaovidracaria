@@ -43,7 +43,7 @@ class CompraProduto(models.Model):
         verbose_name_plural = 'Produtos'
 
     def __str__(self) -> str:
-        return f'{self.compra.fornecedor}'       
+        return f'{self.compra_produto.fornecedor}'       
 
 class Venda(models.Model):
     codigo_venda = models.CharField('Código da Venda', max_length=10)
@@ -62,8 +62,8 @@ class Venda(models.Model):
         verbose_name_plural = 'Vendas'
 
     def custovenda(self):
-        self.venda.custo_venda = 10.00 
-        return "R$ %s" % number_format(self.venda.custo_venda, 2)     
+        self.codigo_venda.custo_venda = 10.00 
+        return "R$ %s" % number_format(self.codigo_venda.custo_venda, 2)     
 
     def __str__(self) -> str:
         return f'{self.cliente} - {self.data_venda.day}/{self.data_venda.month}/{self.data_venda.year}'              
@@ -97,12 +97,12 @@ class VendaProduto(models.Model):
         verbose_name_plural = 'Produtos'
         
     def subtotal(self):
-        self.sub_total = self.produto.valor_venda * self.quant_produto_venda
+        self.sub_total = self.produto.valor * self.quant_produto_venda
         return "R$ %s" % number_format(self.sub_total, 2)
 
     def save(self, *args, **kwargs):
-        self.subtotal = self.produto.valor_venda * self.quant_produto_venda
-        print(self.subtotal)
+        self.subtotal = self.produto.valor * self.quant_produto_venda
+        # print(self.subtotal)
         super(VendaProduto, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
@@ -196,13 +196,13 @@ class CompraPrestacao(models.Model):
 #     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
     
 
-# class VendaPrestacao(models.Model):
-#     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
-#     prestacao = models.CharField('Parcela', max_length=5)
-#     valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
-#     vencimento = models.DateField('Vencimento')
-#     pagamento = models.DateField('Pagamento')
+class VendaPrestacao(models.Model):
+    venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
+    prestacao = models.CharField('Parcela', max_length=5)
+    valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
+    vencimento = models.DateField('Vencimento')
+    pagamento = models.DateField('Pagamento')
     
-#     class Meta:
-#         verbose_name = 'Prestação'
-#         verbose_name_plural = 'Prestações'
+    class Meta:
+        verbose_name = 'Prestação'
+        verbose_name_plural = 'Prestações'
