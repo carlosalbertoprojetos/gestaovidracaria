@@ -7,7 +7,7 @@ from .models import Compra, CompraProduto, CompraPrestacao, Venda, VendaProduto,
 
 class CompraProdutoAdmin(admin.TabularInline):
     model = CompraProduto
-    readonly_fields = ('preco_compra_produto', 'subtotal',)
+    readonly_fields = ('preco', 'subtotal',)
     extra = 0
     ...
 
@@ -22,10 +22,10 @@ class CompraAdmin(admin.ModelAdmin):
     model = Compra
     fieldsets = (
         ('', {
-            'fields': (('codigo_compra','data_compra', 'fornecedor'),('formapgto_compra','status','total_compra',),'imagem_compra',)
+            'fields': (('codigo','data_compra', 'fornecedor'),('formapgto','status','total',),'imagem',)
         }),
     )
-    readonly_fields = ('total_compra',)
+    readonly_fields = ('total',)
     inlines = [
         CompraPrestacaoAdmin,
         CompraProdutoAdmin,
@@ -48,7 +48,7 @@ class VendaProdutoAdmin(admin.TabularInline):
     model = VendaProduto
     fieldsets = (
         ('', {
-            'fields': ('produto','quant_produto_venda', 'detalhes_venda','get_valor_venda','subtotal')
+            'fields': ('produto','quantidade', 'detalhes','get_valor_venda','subtotal')
         }),
     )      
     
@@ -77,7 +77,7 @@ class VendaAdmin(admin.ModelAdmin):
        
     fieldsets = (
         ('', {
-            'fields': (('codigo_venda', 'data_venda', 'cliente'),('formapgto_venda', 'status', 'custovenda',))
+            'fields': (('codigo', 'data_venda', 'cliente'),('formapgto', 'status', 'custovenda',))
         }),
     )
     

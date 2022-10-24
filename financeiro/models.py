@@ -1,9 +1,4 @@
-#from email.policy import default
-#from email.utils import formatdate
-#from statistics import quantiles
 from django.db import models
-#from django.db.models.signals import post_save
-#from django.dispatch import receiver
 from django.utils.formats import number_format
 from gestaovidracaria.constantes import STATUS_CHOICES, PGTO_CHOICES
 
@@ -12,12 +7,13 @@ from cliente.models import Cliente
 from fornecedor.models import Fornecedor
 
 class Compra(models.Model):
-    codigo_compra = models.CharField('Código Compra', max_length=10)
+
+    codigo = models.CharField('Código Compra', max_length=10)
     data_compra = models.DateField('Data Compra')
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.DO_NOTHING)
-    formapgto_compra = models.CharField('Forma pgto', max_length=11, choices=PGTO_CHOICES)
-    imagem_compra = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
-    total_compra = models.DecimalField('Custo da Compra R$', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
+    formapgto = models.CharField('Forma pgto', max_length=11, choices=PGTO_CHOICES)
+    imagem = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
+    total = models.DecimalField('Custo da Compra R$', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField('Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
 
     class Meta:
@@ -29,14 +25,14 @@ class Compra(models.Model):
 
 class CompraProduto(models.Model):
 
-    compra_produto = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
-    quant_produto_compra = models.IntegerField('Quantidade', null=True)
-    preco_compra_produto = models.DecimalField('Preço de Compra R$', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
+    quantidade = models.IntegerField('Quantidade', null=True)
+    preco = models.DecimalField('Preço de Compra R$', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
     subtotal = models.DecimalField('Subtotal R$', max_digits=10, decimal_places=2, default=0)
-    detalhes_compra = models.CharField('Detalhes da Compra', max_length=300, blank=True) 
+    detalhes = models.CharField('Detalhes da Compra', max_length=300, blank=True) 
 
     class Meta:
         verbose_name = 'Produto'
@@ -46,15 +42,12 @@ class CompraProduto(models.Model):
         return f'{self.compra_produto.fornecedor}'       
 
 class Venda(models.Model):
-    codigo_venda = models.CharField('Código da Venda', max_length=10)
+    codigo = models.CharField('Código da Venda', max_length=10)
     data_venda = models.DateField('Data Venda')
     cliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING)    
-    #num_venda = models.CharField('Código da Venda', max_length=10)
-    formapgto_venda = models.CharField(
+    formapgto = models.CharField(
         'Forma pgto', max_length=11, choices=PGTO_CHOICES)
-    custo_venda = models.DecimalField('Custo da venda R$', max_digits=10, decimal_places=2,null=True, blank=True, default=0)
-    #total_venda = models.DecimalField(
-    #    'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
+    custo = models.DecimalField('Custo da venda R$', max_digits=10, decimal_places=2,null=True, blank=True, default=0)
     status = models.CharField('Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
 
     class Meta:
@@ -63,7 +56,7 @@ class Venda(models.Model):
 
     def custovenda(self):
         self.codigo_venda.custo_venda = 10.00 
-        return "R$ %s" % number_format(self.codigo_venda.custo_venda, 2)     
+        return "R$ %s" % number_format(self.codigo.custo, 2)     
 
     def __str__(self) -> str:
         return f'{self.cliente} - {self.data_venda.day}/{self.data_venda.month}/{self.data_venda.year}'              
@@ -85,28 +78,25 @@ class VendaProduto(models.Model):
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
-    quant_produto_venda = models.PositiveSmallIntegerField('Quantidade', default=0)
-    preco_venda_produto = models.DecimalField('Preço de Venda R$', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
-    detalhes_venda = models.CharField('Detalhes da Venda', max_length=300, blank=True)
-    
-    #remover esse campo
-    #subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
+    quantidade = models.PositiveSmallIntegerField('Quantidade', default=0)
+    preco = models.DecimalField('Preço de Venda R$', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
+    detalhes = models.CharField('Detalhes da Venda', max_length=300, blank=True)   
 
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
         
     def subtotal(self):
-        self.sub_total = self.produto.valor * self.quant_produto_venda
+        self.sub_total = self.produto.valor_venda * self.quantidade
         return "R$ %s" % number_format(self.sub_total, 2)
 
     def save(self, *args, **kwargs):
-        self.subtotal = self.produto.valor * self.quant_produto_venda
+        self.subtotal = self.produto.valor_venda * self.quantidade
         # print(self.subtotal)
         super(VendaProduto, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f'{self.venda.codigo_venda}' 
+        return f'{self.venda.codigo}' 
     
 
 
