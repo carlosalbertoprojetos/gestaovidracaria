@@ -16,20 +16,6 @@ class CategoraAdmin(admin.ModelAdmin):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    #list_display = ['categoria','fornecedor', 'nome','preco', 'valor','disponivel', 'estoque', 'descricao']
-    #list_filter = ['categoria', 'nome', 'disponivel', 'created_at', 'updated']
-    #search_fields = ('categoria', 'nome', 'disponivel')
-    #antigo faltando variaveis
-    #fieldsets = [
-    #    ('Produto', {
-    #        'fields': (('codigo','nome'), ('fornecedor', 'categoria'),
-    #             ('ncm','cst','cfop', 'mva'),('peso_barra','icms_1','ipi', 'icms_2')),
-    #    }),
-    #    ('Detalhes', {
-    #        'fields': ('unimed', 'quant_produto', 'disponivel','descricao', 'imagem')
-    #    }),
-    #]
-
     fieldsets = [
         ('Produto', {
             'fields': (('codigo','nome'), ('ncm','cst'),('cfop', 'mva'),
@@ -40,7 +26,4 @@ class ProdutoAdmin(admin.ModelAdmin):
             'fields': ('unimed', 'quantidade','imagem', 'descricao')
         }),
     ]
-    
     ordering = ('nome',)
-    
-    
