@@ -1,195 +1,158 @@
 from django.db import models
 from django.utils.formats import number_format
 from gestaovidracaria.constantes import STATUS_CHOICES, PGTO_CHOICES
+from django.dispatch import receiver
+from django.db.models.signals import post_save, post_delete
 
 from produto.models import Produto
 from cliente.models import Cliente
 from fornecedor.models import Fornecedor
 
-class Compra(models.Model):
 
-    codigo = models.CharField('Código Compra', max_length=10)
-    data_compra = models.DateField('Data Compra')
+class Compra(models.Model):
+    codigo = models.CharField('Código da Compra', max_length=10)
+    data = models.DateField('Data da Compra')
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.DO_NOTHING)
-    formapgto = models.CharField('Forma pgto', max_length=11, choices=PGTO_CHOICES)
+    formapgto = models.CharField('Forma de Pagamento', max_length=11, choices=PGTO_CHOICES)
     imagem = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
-    total = models.DecimalField('Custo da Compra R$', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
+    total = models.DecimalField('Total da Compra', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField('Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
 
     class Meta:
         verbose_name = 'Compra'
         verbose_name_plural = 'Compras'
 
+    def totalCompra(self):
+        return "R$ %s" % number_format(self.total, 2)
+
     def __str__(self) -> str:
-        return f'{self.data_compra.day}/{self.data_compra.month}/{self.data_compra.year}'  
+        return f'{self.fornecedor} - {self.data.day}/{self.data.month}/{self.data.year}'  
+
 
 class CompraProduto(models.Model):
-
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
     quantidade = models.IntegerField('Quantidade', null=True)
-    preco = models.DecimalField('Preço de Compra R$', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
-    subtotal = models.DecimalField('Subtotal R$', max_digits=10, decimal_places=2, default=0)
+    preco = models.DecimalField('Preço do Produto', max_digits=10, decimal_places=2, null=True, blank=True, default=5)
+    subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
     detalhes = models.CharField('Detalhes da Compra', max_length=300, blank=True) 
 
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
 
+    def save(self, *args, **kwargs):
+        self.subtotal = self.quantidade * self.preco
+        return super(CompraProduto, self).save(*args, **kwargs)
+
+    def precoProduto(self):
+        return "R$ %s" % number_format(self.preco, 2)
+
+    def subTotalProduto(self):
+        return "R$ %s" % number_format(self.subtotal, 2)
+
     def __str__(self) -> str:
-        return f'{self.compra_produto.fornecedor}'       
+        return f'{self.compra.codigo}' 
+
+
+@receiver(post_save, sender=CompraProduto)
+def total(sender, instance, *args, **kwargs):
+    order = Compra.objects.filter(id=instance.compra_id)
+    for s in order:
+        s.total += instance.subtotal
+        s.save()
+
+
+@receiver(post_delete, sender=CompraProduto)
+def total(sender, instance, *args, **kwargs):
+    order = Compra.objects.filter(id=instance.compra_id)
+    for s in order:
+        s.total -= instance.subtotal
+        s.save()
+
+
+class CompraPrestacao(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    prestacao = models.CharField('Parcela', max_length=5)
+    valor = models.DecimalField('Valor da Parcela', max_digits=10, decimal_places=2, default=0)
+    vencimento = models.DateField('Vencimento')
+    pagamento = models.DateField('Pagamento')
+    
+    class Meta:
+        verbose_name = 'Prestação'
+        verbose_name_plural = 'Prestações'     
+
 
 class Venda(models.Model):
     codigo = models.CharField('Código da Venda', max_length=10)
-    data_venda = models.DateField('Data Venda')
+    data = models.DateField('Data da Venda')
     cliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING)    
     formapgto = models.CharField(
-        'Forma pgto', max_length=11, choices=PGTO_CHOICES)
-    custo = models.DecimalField('Custo da venda R$', max_digits=10, decimal_places=2,null=True, blank=True, default=0)
+        'Forma de Pagamento', max_length=11, choices=PGTO_CHOICES)
+    total = models.DecimalField('Total da Venda', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
     status = models.CharField('Condição', max_length=10, choices=STATUS_CHOICES, default='pendente')
 
     class Meta:
         verbose_name = 'Venda'
         verbose_name_plural = 'Vendas'
 
-    def custovenda(self):
-        self.codigo_venda.custo_venda = 10.00 
-        return "R$ %s" % number_format(self.codigo.custo, 2)     
+    def totalVenda(self):
+        return "R$ %s" % number_format(self.total, 2)     
 
     def __str__(self) -> str:
-        return f'{self.cliente} - {self.data_venda.day}/{self.data_venda.month}/{self.data_venda.year}'              
+        return f'{self.cliente} - {self.data.day}/{self.data.month}/{self.data.year}'              
 
-'''
-@receiver(post_save, sender=Venda)
-def estoque_venda(sender, instance, **kwargs):    
-    produto = Produto.objects.filter(pk=instance.produto_id)
 
-    for p in produto:
-        p.estoque -= instance.quantidade
-        p.save()
-        instance.venda.total += instance.subtotal
-        instance.venda.save()
-'''
 class VendaProduto(models.Model):
-
     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
     quantidade = models.PositiveSmallIntegerField('Quantidade', default=0)
-    preco = models.DecimalField('Preço de Venda R$', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
+    preco = models.DecimalField('Valor Produto', max_digits=10, decimal_places=2, null=True, blank=True, default=5)
+    subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
     detalhes = models.CharField('Detalhes da Venda', max_length=300, blank=True)   
 
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
-        
-    def subtotal(self):
-        self.sub_total = self.produto.valor_venda * self.quantidade
-        return "R$ %s" % number_format(self.sub_total, 2)
 
     def save(self, *args, **kwargs):
-        self.subtotal = self.produto.valor_venda * self.quantidade
-        # print(self.subtotal)
-        super(VendaProduto, self).save(*args, **kwargs)
+        self.subtotal = self.quantidade * self.preco
+        return super(VendaProduto, self).save(*args, **kwargs)
+
+    def precoProduto(self):
+        return "R$ %s" % number_format(self.preco, 2)
+
+    def subTotalProduto(self):
+        return "R$ %s" % number_format(self.subtotal, 2)
 
     def __str__(self) -> str:
         return f'{self.venda.codigo}' 
-    
 
 
-# class Compra(models.Model):
-#     data = models.DateField('Data')
-#     fornecedor = models.ForeignKey(
-#         Fornecedor, on_delete=models.DO_NOTHING)
-#     formapgto = models.CharField(
-#         'Forma pgto', max_length=11, choices=PGTO_CHOICES)
-#     imagem = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
-#     total = models.DecimalField(
-#         'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
-#     status = models.CharField(
-#         'Condição da entrega', max_length=10, choices=STATUS_CHOICES, default='pendente')
-#     pgto_avista = models.DecimalField(
-#         'Valor a vista', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
-
-#     class Meta:
-#         verbose_name = 'Compra'
-#         verbose_name_plural = 'Compras'
+@receiver(post_save, sender=VendaProduto)
+def total(sender, instance, *args, **kwargs):
+    order = Venda.objects.filter(id=instance.venda_id)
+    for s in order:
+        s.total += instance.subtotal
+        s.save()
 
 
-# class CompraProduto(models.Model):
-#     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
-#     produto = models.ForeignKey(
-#         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
-#     )
-#     quantidade = models.IntegerField('Quantidade', null=True)
-#     preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
-#     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
-#     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
-    
+@receiver(post_delete, sender=VendaProduto)
+def total(sender, instance, *args, **kwargs):
+    order = Venda.objects.filter(id=instance.venda_id)
+    for s in order:
+        s.total -= instance.subtotal
+        s.save()
 
-class CompraPrestacao(models.Model):
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
-    prestacao = models.CharField('Parcela', max_length=5)
-    valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
-    vencimento = models.DateField('Vencimento')
-    pagamento = models.DateField('Pagamento')
-    
-    class Meta:
-        verbose_name = 'Prestação'
-        verbose_name_plural = 'Prestações'
-    
-
-# class Venda(models.Model):
-#     data = models.DateField('Data')
-#     cliente = models.ForeignKey(
-#         Cliente, on_delete=models.DO_NOTHING)
-#     num_venda = models.IntegerField('Nº Venda')
-#     formapgto = models.CharField(
-#         'Forma pgto', max_length=11, choices=PGTO_CHOICES)
-#     custo = models.DecimalField('Custo da venda', max_digits=10, decimal_places=2)
-#     imagem = models.ImageField(upload_to='nfs_compras', blank=True, null=True)
-#     total = models.DecimalField(
-#         'Total', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
-#     status = models.CharField(
-#         'Condição da entrega', max_length=10, choices=STATUS_CHOICES, 
-#         default='pendente')
-#     pgto_avista = models.DecimalField(
-#         'Valor a vista', max_digits=11, decimal_places=2, null=True, blank=True, default=0)
-
-#     class Meta:
-#         verbose_name = 'Venda'
-#         verbose_name_plural = 'Vendas'
-
-
-# @receiver(post_save, sender=Venda)
-# def estoque_venda(sender, instance, **kwargs):    
-#     produto = Produto.objects.filter(pk=instance.produto_id)
-
-#     for p in produto:
-#         p.estoque -= instance.quantidade
-#         p.save()
-#         instance.venda.total += instance.subtotal
-#         instance.venda.save()
-
-
-# class VendaProduto(models.Model):
-#     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
-#     produto = models.ForeignKey(
-#         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
-#     )
-#     quantidade = models.IntegerField('Quantidade', null=True)
-#     preco = models.DecimalField('Preço', max_digits=10, decimal_places=2)
-#     detalhes = models.CharField('Detalhes', max_length=300, blank=True)
-#     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
-    
 
 class VendaPrestacao(models.Model):
     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
     prestacao = models.CharField('Parcela', max_length=5)
-    valor = models.DecimalField('Valor', max_digits=10, decimal_places=2, default=0)
+    valor = models.DecimalField('Valor da Parcela', max_digits=10, decimal_places=2, default=0)
     vencimento = models.DateField('Vencimento')
     pagamento = models.DateField('Pagamento')
     

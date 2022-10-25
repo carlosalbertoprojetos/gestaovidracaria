@@ -33,8 +33,7 @@ class ProdutoAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Produto', {
             'fields': (('codigo','nome'), ('ncm','cst'),('cfop', 'mva'),
-            ('categoria', 'fornecedor'),
-             ('valor_custo','valor_venda'), ('peso_barra','icms_1'),('ipi', 'icms_2'),
+            ('categoria', 'fornecedor'),('valor_custo','valor_venda'), ('peso_barra','icms_1'),('ipi', 'icms_2'),
              'disponivel'),
         }),
         ('Detalhes', {

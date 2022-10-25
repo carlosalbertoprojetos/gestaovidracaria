@@ -18,8 +18,8 @@ from django.urls import include, path
 
 
 urlpatterns = [
+    path('', admin.site.urls),
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
-    path('admin/', admin.site.urls),
 
     # apps
     path('', include('usuario.urls'), name='usuario'),

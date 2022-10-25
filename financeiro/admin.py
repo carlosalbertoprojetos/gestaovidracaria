@@ -7,9 +7,13 @@ from .models import Compra, CompraProduto, CompraPrestacao, Venda, VendaProduto,
 
 class CompraProdutoAdmin(admin.TabularInline):
     model = CompraProduto
-    readonly_fields = ('preco', 'subtotal',)
+    fieldsets = (
+        ('', {
+            'fields': ('produto','quantidade', 'precoProduto', 'detalhes', 'subTotalProduto')
+        }),
+    ) 
+    readonly_fields = ['precoProduto', 'subTotalProduto',]
     extra = 0
-    ...
 
 
 class CompraPrestacaoAdmin(admin.TabularInline):
@@ -22,39 +26,33 @@ class CompraAdmin(admin.ModelAdmin):
     model = Compra
     fieldsets = (
         ('', {
-            'fields': (('codigo','data_compra', 'fornecedor'),('formapgto','status','total',),'imagem',)
+            'fields': (('codigo','data', 'fornecedor'),('formapgto','status','totalCompra',),'imagem',)
         }),
     )
-    readonly_fields = ('total',)
+    readonly_fields = ('totalCompra',)
     inlines = [
         CompraPrestacaoAdmin,
         CompraProdutoAdmin,
     ]
+    ordering = ('data',) 
+    search_fields = ['data']
     ...
 admin.site.register(Compra, CompraAdmin)
 
 
-soma_total = 0
 class VendaProdutoAdmin(admin.TabularInline):
 
     def get_valor_venda(self, obj):
-        #global soma_total
-        #pdb.set_trace()                 
-        #subtotal = round(obj.produto.valor_venda * obj.quant_produto_venda,2)
-        #soma_total += subtotal
-        #print('Soma total',soma_total)
-        return "R$ %s" % number_format(obj.produto.valor_venda,2)
+        return "R$ %s" % number_format(obj.produto_valor_venda,2)
 
     model = VendaProduto
     fieldsets = (
         ('', {
-            'fields': ('produto','quantidade', 'detalhes','get_valor_venda','subtotal')
+            'fields': ('produto','quantidade', 'precoProduto', 'detalhes','get_valor_venda','subTotalProduto')
         }),
-    )      
-    
+    )
     get_valor_venda.short_description = 'Valor de Venda'   
-    #salvar no banco de dados tambem
-    readonly_fields = ['get_valor_venda','subtotal',] 
+    readonly_fields = ['precoProduto', 'get_valor_venda','subTotalProduto',] 
     extra = 0
 
 
@@ -65,53 +63,18 @@ class VendaPrestacaoAdmin(admin.TabularInline):
 
 
 class VendaAdmin(admin.ModelAdmin):
-    
     model = Venda
-
-    #def get_custo_venda(self, obj):        
-    #    obj.custo = soma_total
-    #    print('Total = ', obj.custo)
-    #    return soma_total
-    #corrigir o valor do custo da venda
-    #get_custo_venda.short_description = 'Custo da venda R$'
-       
     fieldsets = (
         ('', {
-            'fields': (('codigo', 'data_venda', 'cliente'),('formapgto', 'status', 'custovenda',))
+            'fields': (('codigo', 'data', 'cliente'),('formapgto', 'status', 'totalVenda',))
         }),
-    )
-    
-    readonly_fields = ('custovenda',)
-    inlines = [VendaProdutoAdmin] 
-    #exclude = ['preco_venda_produto']
-    #search_fields = ['codigo_venda']
-        
-    ...      
-    ordering = ('data_venda',) 
-    search_fields = ['data_venda']     
+    )    
+    readonly_fields = ('totalVenda',)
+    inlines = [
+        VendaPrestacaoAdmin,
+        VendaProdutoAdmin
+        ] 
+    ordering = ('data',) 
+    search_fields = ['data']
+    ...
 admin.site.register(Venda, VendaAdmin)
-
-
-
-soma_total = 0
-class VendaProdutoAdmin(admin.TabularInline):
-
-    def get_valor_venda(self, obj):
-        #global soma_total
-        #pdb.set_trace()                 
-        #subtotal = round(obj.produto.valor_venda * obj.quant_produto_venda,2)
-        #soma_total += subtotal
-        #print('Soma total',soma_total)
-        return "R$ %s" % number_format(obj.produto.valor_venda,2)
-
-    model = VendaProduto
-    fieldsets = (
-        ('', {
-            'fields': ('produto','quant_produto_venda', 'detalhes_venda','get_valor_venda','subtotal')
-        }),
-    )      
-    
-    get_valor_venda.short_description = 'Valor de Venda'   
-    #salvar no banco de dados tambem
-    readonly_fields = ['get_valor_venda','subtotal',] 
-    extra = 0
