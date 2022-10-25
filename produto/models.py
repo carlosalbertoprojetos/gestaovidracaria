@@ -42,8 +42,8 @@ class Produto(models.Model):
     cst = models.CharField('CST',max_length=3, validators=[validate_campos],blank=True)
     cfop = models.CharField('CFOP',max_length=4, validators=[validate_campos], blank=True)
     peso_barra = models.DecimalField('Peso Barra', max_digits=4, decimal_places=2, default=0, blank=True)
-    aliquota_1 = models.DecimalField('Aliquota Interno 1', max_digits=3, decimal_places=2, default=0.12, blank=True)
-    aliquota_2 = models.DecimalField('Aliquota Interno 2', max_digits=3, decimal_places=2, default=0.18, blank=True)
+    aliquota_1 = models.DecimalField('Aliquota Interno 1', max_digits=3, decimal_places=2, default=0.00, blank=True)
+    aliquota_2 = models.DecimalField('Aliquota Interno 2', max_digits=3, decimal_places=2, default=0.00, blank=True)
     ipi = models.DecimalField('IPI', max_digits=3, decimal_places=2, default=0, blank=True)
     mva = models.CharField('MVA',max_length=3, validators=[validate_campos],blank=True)
     imagem = models.ImageField(
@@ -79,7 +79,7 @@ class Produto(models.Model):
 
     #calculo valor icms 1    
     def icms_interno_1(self):
-        self.icms_1 = self.aliquota_2 * self.valor_venda_produto()         
+        self.icms_1 = self.aliquota_1 * self.valor_venda_produto()         
         return round(self.icms_1,2)
     
     #calculo valor ipi
@@ -104,17 +104,17 @@ class Produto(models.Model):
     
     #calculo valor icms 2
     def icms_interno_2(self):
-        self.icms_2 = self.aliquota_1 * self.calculo_icms_st() 
+        self.icms_2 = self.aliquota_2 * self.calculo_icms_st() 
         return round(self.icms_2, 2)     
 
     #calculo ST =(X5*(K5)-O5)
     def calculo_st(self):
-        self.st = ((float(self.aliquota_2)) * self.base_calculo_st()) - float(self.icms_interno_2()) 
+        self.st = ((float(self.aliquota_1)) * self.base_calculo_st()) - float(self.icms_interno_2()) 
         return round(self.st, 2)
 
     #calculo diferença de aliquota ICMS
     def diferenca_aliquota_icms(self):
-        self.al_icms = (self.aliquota_2 - self.aliquota_1) * self.valor_venda_produto() 
+        self.al_icms = (self.aliquota_1 - self.aliquota_2) * self.valor_venda_produto() 
         return round(self.al_icms, 2)
          
     #calculo custo final do produto =J5+Q5+Y5
