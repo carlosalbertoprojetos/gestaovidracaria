@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Movimento, ProdutoMovimento
 
-from financeiro.models import Compra, Venda
+from financeiro.models import CompraProduto, VendaProduto
 
 
 class ProdutoMovimentoAdmin(admin.TabularInline):

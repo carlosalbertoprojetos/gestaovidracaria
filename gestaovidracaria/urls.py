@@ -16,6 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from django.contrib import admin 
+
+admin.site.site_header = 'Gestão Vidraçaria'
+#admin.site.site_title = 'site_title'
+#admin.site.index_title = 'index_title'
+
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS

@@ -23,9 +23,12 @@ STATUS_CHOICES = (
 )
 
 PGTO_CHOICES = (
-    ("Pix", "pix"),
-    ("Cartão", "cartão"),
-    ("Dinheiro", "dinheiro"),
+    ("Boleto", "Boleto"),
+    ("Cheque", "Cheque"),
+    ("C/Entrega", "C/Entrega"),
+    ("Pix", "Pix"),
+    ("Cartão", "Cartão"),
+    ("Dinheiro", "Dinheiro"),
 )
 
 SEXO_CHOICES = (

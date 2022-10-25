@@ -144,7 +144,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GRAPPELLI_ADMIN_TITLE = 'Gestão Vidraçaria'
+#GRAPPELLI_ADMIN_TITLE = 'Gestão Vidraçaria'
 
 # django_on_heroku.settings(locals())
 

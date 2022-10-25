@@ -11,18 +11,16 @@ class CompraProdutoAdmin(admin.TabularInline):
     extra = 0
     ...
 
-
 class CompraPrestacaoAdmin(admin.TabularInline):
     model = CompraPrestacao
     extra = 1
     ...
 
-
 class CompraAdmin(admin.ModelAdmin):
     model = Compra
     fieldsets = (
         ('', {
-            'fields': (('codigo','data_compra', 'fornecedor'),('formapgto','status','total',),'imagem',)
+            'fields': (('codigo', 'fornecedor'), ('data_compra'),('formapgto','status','total',),'imagem',)
         }),
     )
     readonly_fields = ('total',)
@@ -77,13 +75,12 @@ class VendaAdmin(admin.ModelAdmin):
        
     fieldsets = (
         ('', {
-            'fields': (('codigo', 'data_venda', 'cliente'),('formapgto', 'status', 'custovenda',))
+            'fields': (('codigo', 'data_venda', 'cliente'),('formapgto', 'status',))
         }),
     )
     
-    readonly_fields = ('custovenda',)
-    inlines = [VendaProdutoAdmin] 
-    #exclude = ['preco_venda_produto']
+    readonly_fields = ()
+    inlines = [VendaProdutoAdmin]     
     #search_fields = ['codigo_venda']
         
     ...      
