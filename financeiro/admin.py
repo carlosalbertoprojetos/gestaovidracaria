@@ -1,5 +1,6 @@
 import pdb
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from django.utils.formats import number_format
 
 from .models import Compra, CompraProduto, CompraPrestacao, Venda, VendaProduto, VendaPrestacao
@@ -44,6 +45,7 @@ class VendaProdutoAdmin(admin.TabularInline):
         return "R$ %s" % number_format(obj.produto.valor_venda,2)
 
     model = VendaProduto
+    list_filter = ('data_venda',)
     fieldsets = (
         ('', {
             'fields': ('produto','quantidade', 'detalhes','get_valor_venda','subtotal')
@@ -62,10 +64,9 @@ class VendaPrestacaoAdmin(admin.TabularInline):
     ...
 
 
-class VendaAdmin(admin.ModelAdmin):
-    
+class VendaAdmin(ImportExportModelAdmin):    
     model = Venda
-
+    
     #def get_custo_venda(self, obj):        
     #    obj.custo = soma_total
     #    print('Total = ', obj.custo)
@@ -79,13 +80,12 @@ class VendaAdmin(admin.ModelAdmin):
         }),
     )
     
-    readonly_fields = ()
+    list_filter = ('data_venda',)
+    #readonly_fields = ()
     inlines = [VendaProdutoAdmin]     
-    #search_fields = ['codigo_venda']
-        
-    ...      
+    #search_fields = ['codigo_venda']        
     ordering = ('data_venda',) 
-    search_fields = ['data_venda']     
+    #search_fields = ['data_venda']     
 admin.site.register(Venda, VendaAdmin)
 
 

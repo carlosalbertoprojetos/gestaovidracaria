@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Categoria, Produto, UnidadeMedida
 
@@ -13,7 +14,7 @@ class CategoraAdmin(admin.ModelAdmin):
     ordering = ('nome',)
 
 @admin.register(Produto)
-class ProdutoAdmin(admin.ModelAdmin):    
+class ProdutoAdmin(ImportExportModelAdmin):    
     fieldsets = [
         ('Produto', {
             'fields':
