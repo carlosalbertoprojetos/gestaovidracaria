@@ -8,7 +8,6 @@ from funcionario.models import Funcionario
 from produto.models import Produto
 
 class Movimento(models.Model):
-
     funcionario = models.ForeignKey(Funcionario, on_delete=models.DO_NOTHING)
     operacao = models.CharField('Operação', max_length=6, choices=TYPE)
     data = models.DateField('Data')
@@ -25,9 +24,6 @@ class Movimento(models.Model):
         verbose_name = 'Movimentação de Estoque'
         verbose_name_plural = 'Movimentação de Estoque'
 
-    # def get_absolute_url_client_list(self):
-    #     return reverse('order:orders_client_list', args=[self.client.pk])
-
     def get_absolute_url_details(self):
         return reverse('order:order_details', args=[self.pk])
 
@@ -37,32 +33,11 @@ class Movimento(models.Model):
     def get_absolute_url_Editar(self):
         return reverse('pedidos:edit_order', args=[self.pk])
 
-    # def get_absolute_url_Orcamento(self):
-    #     return reverse('pedidos:orcamento', args=[self.int:cliente.id]/[self.pk])
-
-    # def print(self):
-    #     return mark_safe("""<a href=\"{% url 'order:budget' self.pk %} \"target="_blank">
-    #     <img src=\"/static/produtos/b_print.png\"></a>""")
-
     def __str__(self):
         return str(self.id)
 
 
-# @receiver(post_save, sender=Movimento)
-# def movimento_estoque(sender, instance, **kwargs):
-#     produto = Produto.objects.filter(id=instance.produto.id)
-#     for p in produto:
-#         if instance.operacao == 'Compra':
-#             p.quant_produto += instance.quantidade
-#         else:
-#             p.quant_produto -= instance.quantidade
-#         p.save()
-        # instance.total += instance.subtotal
-        # instance.save()
-
-
 class ProdutoMovimento(models.Model):
-
     movimento = models.ForeignKey(Movimento, on_delete=models.CASCADE)
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
@@ -77,7 +52,6 @@ class ProdutoMovimento(models.Model):
 def inventory_delete(sender, instance, **kwargs):
     produto = Produto.objects.filter(pk=instance.produto_id)
     instance.subtotal = produto.quantidade * produto.preco
-    # instance.subtotal = instance.preco * instance.quantidade
     instance.movimento.total += instance.subtotal
     instance.movimento.save()
         
@@ -92,17 +66,3 @@ def inventory_insert(sender, instance, **kwargs):
     for p in produto:
         p.quant_produto += instance.quantidade
         p.save()
-
-
-"""
-    # def __str__(self):
-    #     return str(self.produto)
-        # return str(self.order.client) + ",R$" + str(self.price) + "," + str(self.amount) + ",R$" + str(self.subtotal)
-
-    # calculo
-    # def save(self, *args, **kwargs):
-    #     self.subtotal = self.preço * self.quantidade
-    #     self.movimento.total += self.subtotal
-    #     self.movimento.save()
-    #     return super(ProdutoMovimento, self).save(*args, **kwargs)
-"""

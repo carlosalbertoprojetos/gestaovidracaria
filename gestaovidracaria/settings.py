@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'produto',
     'movimento',
     'financeiro',
+    'import_export',
 
         
 ]
