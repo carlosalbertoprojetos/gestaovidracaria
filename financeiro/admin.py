@@ -1,6 +1,9 @@
 import pdb
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportMixin
+from import_export import resources
+
 from django.utils.formats import number_format
 
 from .models import Compra, CompraProduto, CompraPrestacao, Venda, VendaProduto, VendaPrestacao

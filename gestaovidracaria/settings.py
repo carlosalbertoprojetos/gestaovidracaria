@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'produto',
     'movimento',
     'financeiro',
+    'estoque',
     #'django_cpf_cnpj',
     #'phonenumber_field',
 
@@ -144,6 +145,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 #GRAPPELLI_ADMIN_TITLE = 'Gestão Vidraçaria'
 
