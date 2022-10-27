@@ -34,9 +34,9 @@ class ProdutoAdmin(ImportExportModelAdmin):
         ('Valores e taxas', {
             'classes': ['grp-collapse grp-closed'],
             'fields':
-                (('valor_custo','valor_venda'),
+                (('custo','venda'),
                 ('peso_barra','aliquota_1'),
-                ('ipi', 'aliquota_2'), ('taxa_frete','valor_frete')),             
+                ('ipi', 'aliquota_2'), ('tfrete','frete')),             
         }),
         
         ('Detalhes', {
@@ -45,7 +45,7 @@ class ProdutoAdmin(ImportExportModelAdmin):
                 ('unimed', 'quantidade','imagem', 'descricao')
         }),
 
-        ('Valores calculados (R$)', {
+        ('Valores calculados', {
             'classes': ['grp-collapse grp-closed',],
             'fields': 
                 (('valor_venda_produto','icms_interno_1', 'calculo_icms_st', 'icms_interno_2'),

@@ -24,7 +24,7 @@ class UnidadeMedida(models.Model):
     
     class Meta:
         verbose_name = "Unidade de Medida"
-        verbose_name_plural = "Unidades de Medida"
+        verbose_name_plural = "Unidades de Medidas"
 
     def __str__(self):
         return self.unidade    
@@ -50,12 +50,12 @@ class Produto(models.Model):
         'Imagem do produto', upload_to="produto/imagens/%Y", blank=True)
     unimed = models.ForeignKey(UnidadeMedida, on_delete=models.CASCADE, verbose_name='Unidade de medida')
     descricao = models.TextField('Descrição', blank=True)
-    valor_custo = models.DecimalField('Valor de Custo R$', max_digits=10, decimal_places=2, default=0, blank=True)
-    valor_venda = models.DecimalField('valor de Venda R$', max_digits=10, decimal_places=2, default=0, blank=True)
+    custo = models.DecimalField('Valor de Custo', max_digits=10, decimal_places=2, default=0, blank=True)
+    venda = models.DecimalField('valor de Venda', max_digits=10, decimal_places=2, default=0, blank=True)
     status = models.BooleanField('Disponível', default=True)
     quantidade = models.DecimalField('Quantidade de Produto', max_digits=4, decimal_places=2, default=0, blank=True)
-    taxa_frete = models.DecimalField('Taxa Frete', max_digits=5, decimal_places=4, default=0, blank=True)
-    valor_frete = models.DecimalField('valor para frete R$', max_digits=4, decimal_places=2, default=0, blank=True)
+    tfrete = models.DecimalField('Taxa de Frete', max_digits=5, decimal_places=4, default=0, blank=True)
+    frete = models.DecimalField('valor para frete', max_digits=4, decimal_places=2, default=0, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -67,15 +67,27 @@ class Produto(models.Model):
     #calculo valor do produto
     def valor_venda_produto(self):       
         if self.unimed.unidade == 'KG':
-            self.valor_produto = self.peso_barra * self.valor_venda
-        if self.unimed.unidade == 'PÇ':
-            self.valor_produto = self.valor_venda
+            self.valor_produto = self.peso_barra * self.venda
+        if self.unimed.unidade == 'PC':
+            self.valor_produto = self.venda
         if self.unimed.unidade == 'M2':
-            self.valor_produto = self.valor_venda
+            self.valor_produto = self.venda
         if self.unimed.unidade == 'KIT':
-            self.valor_produto = self.valor_venda
+            self.valor_produto = self.venda
 
         return round(self.valor_produto,2)         
+
+
+# - SUGESTÃO -
+    # def valor_venda_produto(self):
+    #     if self.unimed.unidade == 'KG':
+    #         self.valor_produto = self.peso_barra * self.venda
+    #     else:
+    #         self.valor_produto = self.venda
+
+    #     return round(self.valor_produto,2)
+
+
 
     #calculo valor icms 1    
     def icms_interno_1(self):
@@ -89,7 +101,7 @@ class Produto(models.Model):
     
     #calculo do frete    
     def calculo_frete(self):        
-        self.frete = (self.valor_venda_produto() * self.taxa_frete) + self.valor_frete 
+        self.frete = (self.valor_venda_produto() * self.tfrete) + self.frete 
         return round(self.frete, 2)
 
     #Base calculo ST =(J5+V5+S5)*(1+(W5/100))

@@ -7,6 +7,7 @@ from gestaovidracaria.constantes import STATUS_CHOICES, TYPE
 from funcionario.models import Funcionario
 from produto.models import Produto
 
+
 class Movimento(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.DO_NOTHING)
     operacao = models.CharField('Operação', max_length=6, choices=TYPE)
