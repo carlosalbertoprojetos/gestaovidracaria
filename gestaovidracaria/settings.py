@@ -146,7 +146,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
-
+LOGIN_URL = '/admin/login/'
 #GRAPPELLI_ADMIN_TITLE = 'Gestão Vidraçaria'
 
 # django_on_heroku.settings(locals())

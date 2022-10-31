@@ -1,3 +1,7 @@
+from ast import Mult
+from audioop import mul
+import pdb
+from typing_extensions import Self
 from django.db import models
 from django.urls import reverse
 from django.utils.formats import number_format
@@ -74,52 +78,78 @@ class Produto(models.Model):
         if self.unimed.unidade == 'KIT':
             self.valor_produto = self.valor_venda
 
-        return round(self.valor_produto,2)         
-
+        return round(self.valor_produto,2)    
+   
+    v_produto = property(
+        fget= valor_venda_produto
+    )
+    
     #calculo valor icms 1    
-    def icms_interno_1(self):
-        self.icms_1 = self.aliquota_1 * self.valor_venda_produto()         
-        return round(self.icms_1,2)
+    def icms_interno_1(self):                        
+        return round(self.aliquota_1 * self.v_produto,2)    
     
     #calculo valor ipi
     def calculo_ipi(self):
-        self.valor_ipi = self.valor_venda_produto() * self.ipi 
-        return round(self.valor_ipi, 2) 
+                    
+        return round(self.v_produto * self.ipi , 2) 
+    
+    v_ipi = property(
+        fget= calculo_ipi
+    )
     
     #calculo do frete    
-    def calculo_frete(self):        
-        self.frete = (self.valor_venda_produto() * self.taxa_frete) + self.valor_frete 
-        return round(self.frete, 2)
-
+    def calculo_frete(self):      
+        return round((self.v_produto * self.taxa_frete) + self.valor_frete , 2)
+    
+    v_frete = property(
+        fget= calculo_frete
+    )
+    
     #Base calculo ST =(J5+V5+S5)*(1+(W5/100))
-    def base_calculo_st(self):       
-        self.st = float((self.valor_venda_produto() + self.calculo_frete() + self.calculo_ipi())) * (1 + int(self.mva)/100)
-        return round(self.st, 2) 
+    def base_calculo_st(self):
+        p = Produto.objects.filter(id=self.pk).values('pk').distinct() or 0
+        print('Resposta->',p)            
+        return round(float(self.v_produto + self.v_frete + self.v_ipi) * (1 + int(self.mva)/100), 2) 
+    
+    v_base_st = property(
+        fget= base_calculo_st
+    )
     
     #Base de calculo do icms 2 e ST 
-    def calculo_icms_st(self):
-        self.icmsST = self.valor_venda_produto() + self.calculo_frete() 
-        return round(self.icmsST, 2) 
+    def calculo_icms_st(self):   
+        return round(self.v_produto + self.v_frete, 2) 
+    
+    v_icms_st = property(
+        fget= calculo_icms_st
+    )
     
     #calculo valor icms 2
-    def icms_interno_2(self):
-        self.icms_2 = self.aliquota_2 * self.calculo_icms_st() 
-        return round(self.icms_2, 2)     
+    def icms_interno_2(self):      
+        return round(self.aliquota_2 * self.v_icms_st, 2)     
+
+    v_icms_2 = property(
+        fget= icms_interno_2
+    )
 
     #calculo ST =(X5*(K5)-O5)
-    def calculo_st(self):
-        self.st = ((float(self.aliquota_1)) * self.base_calculo_st()) - float(self.icms_interno_2()) 
-        return round(self.st, 2)
+    def calculo_st(self):        
+        return round(float(self.aliquota_1) * float(self.v_base_st) - float(self.v_icms_2), 2)
+
+    v_st = property(
+        fget= calculo_st
+    )
 
     #calculo diferença de aliquota ICMS
-    def diferenca_aliquota_icms(self):
-        self.al_icms = (self.aliquota_1 - self.aliquota_2) * self.valor_venda_produto() 
-        return round(self.al_icms, 2)
+    def diferenca_aliquota_icms(self):        
+        return round(float(self.aliquota_1 - self.aliquota_2) * float(self.v_produto), 2)
          
+    v_dif_aliquota_icms = property(
+        fget= diferenca_aliquota_icms
+    )
+    
     #calculo custo final do produto =J5+Q5+Y5
-    def calculo_preco_final(self):
-        self.preco_final = float(self.valor_venda_produto()) + float(self.diferenca_aliquota_icms()) + float(self.calculo_st()) 
-        return round(self.preco_final, 2)
+    def calculo_preco_final(self):         
+        return round(float(self.v_produto) + float(self.v_dif_aliquota_icms) + float(self.v_st), 2)
 
     #calculo custo fracionado do produto
     def custo_fracionado_produto(self):
@@ -132,10 +162,13 @@ class Produto(models.Model):
         
         return round(self.frac_produto, 2)    
     
+    v_custo_fracionado_produto = property(
+        fget= custo_fracionado_produto
+    )
+    
     #calculo venda fracionada do produto
-    def custo_venda_fracionada(self):
-        self.venda_frac = self.custo_fracionado_produto() * 2 
-        return round(self.venda_frac, 2)
+    def custo_venda_fracionada(self):         
+        return round(self.v_custo_fracionado_produto * 2, 2)
 
     def get_absolute_url_Detail(self):
         return reverse('product:product_detail', args=[self.pk])

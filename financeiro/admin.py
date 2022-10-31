@@ -91,9 +91,8 @@ class VendaAdmin(ImportExportModelAdmin):
     #search_fields = ['data_venda']     
 admin.site.register(Venda, VendaAdmin)
 
-
-
 soma_total = 0
+
 class VendaProdutoAdmin(admin.TabularInline):
 
     def get_valor_venda(self, obj):
