@@ -8,5 +8,5 @@ class ContaViewTestCase(TestCase):
         response = self.client.get(reverse('conta:conta_view'))
         self.assertEquals(response.status_code, 200)
         
-    def test_template_usado(self):
-        response = self.client.get(reverse('conta:conta_view'))
+    # def test_template_usado(self):
+    #     response = self.client.get(reverse('conta:conta_view'))
