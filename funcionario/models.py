@@ -9,7 +9,7 @@ class Funcionario(models.Model):
 	empresa = models.CharField('Nome da Empresa',max_length=200)
 	nome = models.CharField('Nome Completo',max_length=200)	
 	admissao = models.DateField('Data de Admissão')
-	banco = models.ForeignKey(Conta, on_delete=models.DO_NOTHING, verbose_name='Banco', blank=True)
+	banco = models.ForeignKey(Conta, on_delete=models.DO_NOTHING, verbose_name='Banco')
 	cargo = models.CharField('Cargo',max_length=200, blank=True)
 	salario = models.CharField('Salário',max_length=200, blank=True)
 	nascimento = models.DateField('Data de Nascimento')

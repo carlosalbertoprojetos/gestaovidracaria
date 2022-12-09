@@ -11,6 +11,12 @@ class ProdutoMovimentoAdmin(admin.TabularInline):
 
 
 class MovimentoAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Cadastro', {
+            'fields': ('funcionario',('data', 'operacao'),('total', 'status'), 'local')
+        }),
+    )
+    readonly_fields = ('total',)     
     inlines = [
         ProdutoMovimentoAdmin,
     ]

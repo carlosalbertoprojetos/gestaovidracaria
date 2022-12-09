@@ -34,7 +34,7 @@ class CompraProduto(models.Model):
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
-    quantidade = models.IntegerField('Quantidade', null=True)
+    quantidade = models.IntegerField('Quantidade', default=0)
     preco = models.DecimalField('Preço do Produto', max_digits=10, decimal_places=2, null=True, blank=True, default=5)
     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
     detalhes = models.CharField('Detalhes da Compra', max_length=300, blank=True) 
@@ -110,7 +110,7 @@ class VendaProduto(models.Model):
     produto = models.ForeignKey(
         Produto, on_delete=models.DO_NOTHING, verbose_name='Produto'
     )
-    quantidade = models.PositiveSmallIntegerField('Quantidade', default=0)
+    quantidade = models.IntegerField('Quantidade', default=0)
     preco = models.DecimalField('Valor Produto', max_digits=10, decimal_places=2, null=True, blank=True, default=5)
     subtotal = models.DecimalField('Subtotal', max_digits=10, decimal_places=2, default=0)
     detalhes = models.CharField('Detalhes da Venda', max_length=300, blank=True)   
