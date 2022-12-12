@@ -9,7 +9,7 @@ class CompraProdutoAdmin(admin.TabularInline):
     model = CompraProduto
     fieldsets = (
         ('', {
-            'fields': ('produto','quantidade', 'precoProduto', 'detalhes', 'subTotalProduto')
+            'fields': ('produto','quantidade', 'precoProduto', 'detalhes', 'subTotalProduto', )
         }),
     ) 
     readonly_fields = ['precoProduto', 'subTotalProduto',]
@@ -51,7 +51,7 @@ class VendaProdutoAdmin(admin.TabularInline):
             'fields': ('produto','quantidade', 'precoProduto', 'detalhes','get_valor_venda','subTotalProduto')
         }),
     )
-    get_valor_venda.short_description = 'Valor de Venda'   
+    get_valor_venda.short_description = 'Valor de Venda'
     readonly_fields = ['precoProduto', 'get_valor_venda','subTotalProduto',] 
     extra = 0
 

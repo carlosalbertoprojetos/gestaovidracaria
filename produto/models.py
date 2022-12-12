@@ -74,7 +74,6 @@ class Produto(models.Model):
             self.valor_produto = self.venda
         if self.unimed.unidade == 'KIT':
             self.valor_produto = self.venda
-
         return round(self.valor_produto,2)         
 
 
@@ -92,7 +91,7 @@ class Produto(models.Model):
     #calculo valor icms 1    
     def icms_interno_1(self):
         self.icms_1 = self.aliquota_1 * self.valor_venda_produto()         
-        return round(self.icms_1,2)
+        return round(self.icms_1, 2)
     
     #calculo valor ipi
     def calculo_ipi(self):

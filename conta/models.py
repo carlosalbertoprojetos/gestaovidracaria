@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.formats import number_format
 
 from gestaovidracaria.constantes import STATE_CHOICES
 
@@ -16,9 +17,10 @@ class Conta(models.Model):
 	complemento = models.CharField('Complemento', max_length=100, blank=True)	
 	cep = models.CharField('CEP', max_length=11, blank=True)	
 	estado = models.CharField('Estado', choices=STATE_CHOICES,  max_length=2, blank=True)	
-	cidade = models.CharField('Cidade',max_length=100, blank=True)	
-	
+	cidade = models.CharField('Cidade',max_length=100, blank=True)
+ 
 	def __str__(self):
 		return self.nome
 
-
+	def format_saldo(self):
+		return "R$ %s" % number_format(self.saldo, 2)
