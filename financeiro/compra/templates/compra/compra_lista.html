@@ -1,0 +1,47 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+  Lista de Compras
+{% endblock %}
+{% block dashboard %}
+
+
+<div class="tow top-buffer">
+  <table class="table table-bordered">
+    {% for c in object_list %}
+    <tr>
+      <td>Fornecedor: {{ c.fornecedor }}
+        <p>Produtos</p> 
+          {% for t in c.produtos.all %}
+          <li>{{ t.produto }}</li>
+          {% endfor %}
+        <p>Prestações</p>
+          {% for t in c.prestacoes.all %}
+          <li>{{ t.banco }}</li>
+          {% endfor %}
+      </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="tow top-buffer">
+  {% for c in object_list %}
+  Fornecedor {{ c.cmpra }} / Compra {{ c }}
+  <table class="table table-bordered">
+    <tr>
+      <td>
+        <p>Produtos</p> 
+          {% for t in c.produtos.all %}
+          <li>{{ t.produto }}</li>
+          {% endfor %}
+        <p>Prestações</p>
+          {% for t in c.prestacoes.all %}
+          <li>{{ t.banco }}</li>
+          {% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+{% load i18n account static %}
+
+{% block title %} Cadastrar {% endblock title %} 
+
+{% block base %}
+
+<div class="container-fluid">
+    <div class="justify-content-center">
+        <div class="content-header">
+            <div class="container">
+                <div class="text-center">
+                    <div class="row">
+                        <section class="signup mt-5">
+                            <div class="container-form">
+                                <div class="signup-content">
+                                    <div class="signup-form">
+                                        <form method="POST" class="register-form" id="register-form" action="/accounts/signup/">
+                                            {% csrf_token %}
+                                            
+                                            {{ form.non_field_errors }}
+                                            <h2 class="form-title">Cadastrar</h2>
+                                            <div class="row mb-1">
+                                                <div class="btn-group w-100" role="group" >
+                                                    <input type="radio" name="option" value="1" class="btn-check" id="id_option2"
+                                                        autocomplete="off" checked>
+                                                    <label class="btn btn-outline-primary" for="id_option2">Agência</label>
+
+                                                    <input type="radio" name="option" value="3" class="btn-check" id="id_option3"
+                                                        autocomplete="off">
+                                                    <label class="btn btn-outline-primary" for="id_option3">Fornecedor</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-floating mb-1">
+                                                        <input class="form-control" id="id_email" name="email" type="email" value="{{ form.email.value|default:'' }}"/>
+                                                        {{ form.email.errors }}
+                                                        <label for="id_email">Email</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-floating mb-1">
+                                                        <input class="form-control" id="id_password1" name="password1" type="password" />
+                                                        {{ form.password1.errors }}
+                                                        <label for="id_password1">Senha</label> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-floating mb-1">
+                                                        <input class="form-control" id="password2" name="password2" type="password" />
+                                                        {{ form.password2.errors }}
+                                                        <label for="id_password2">Confirmar Senha</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-button">
+                                                <input type="submit" name="signup" id="signup" class="form-submit" value="Salvar" />
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+
+                                    <div class="signup-image">
+                                        <figure><img src="{% static 'images/signup-image.jpg' %}" alt="sing up image"></figure>
+                                        <a href="{% url 'account_login' %}" class="signup-image-link">Já sou Cadastrado</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

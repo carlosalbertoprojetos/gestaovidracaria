@@ -1,0 +1,74 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static widget_tweaks %}
+
+{% block title %}
+  Contas a Pagar
+{% endblock %}
+{% block dashboard %}
+<div class="card px-3 mt-1">
+  <h1 class="m-2">Contas a Pagar</h1>
+  <form id="myForm" method="GET" class="">
+    <div class="form-row mb-2">
+      <div class="col-6">
+        {% render_field form.ano title='Anos' class='custom-select' onclick="filtroMeses()" onChange='filtroMeses()' %}
+      </div>
+      <div class="col-6">
+        <select class="custom-select" id="mesOptions" name="mes" onclick="filtroPrestacoes()" onChange="filtroPrestacoes()">
+          <option value="">selecione o ano</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card-header p-1" id="mesOptions"></div>
+
+<div class="" id="mesPrestacoes"></div>
+
+<hr/>
+
+{% comment %} </div> {% endcomment %}
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>  
+  function filtroMeses() {
+    var select = document.getElementById('id_ano')
+    var ano = select.options[select.selectedIndex].value
+    let url = "{% url 'compra:meses_choices_ajax' %}"
+  
+    $.ajax({
+      type: 'GET',
+      url: url,
+      data: {
+        ano: ano
+      },
+      success: function (response) {
+        $('#mesOptions').html(response)
+      }
+    })
+  }
+  
+  function filtroPrestacoes() {
+    var anoSelected = document.getElementById('id_ano')
+    var ano = anoSelected.options[anoSelected.selectedIndex].value
+    var mesSelect = document.getElementById('mesOptions')
+    var mes = mesSelect.options[mesSelect.selectedIndex].value  
+    let url = "{% url 'compra:meses_prestacoes_ajax' %}"
+  
+    $.ajax({
+      type: 'GET',
+      url: url,
+      data: {
+        ano: ano,
+        mes: mes
+      },
+      success: function (response) {
+        $('#mesPrestacoes').html(response)
+      }
+    })
+  }
+</script>
+{% endblock scripts %}

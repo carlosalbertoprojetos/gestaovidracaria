@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load i18n account static %}
+{% block base %}
+
+    <script src="{% url 'js-catlog' %}"></script>
+    <script src="{% static '/admin/js/core.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark pt-8">
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <a class="navbar-brand ps-3" href="/">Cortina de Vidro</a>
+        </ul>
+        <div class="collapse navbar-collapse w-25" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            </ul>
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+                    id="sidebarToggle"
+                    href="#">
+                <i class="fas fa-bars"></i>
+            </button>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse d-lg-flex justify-content-end"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto ms-md-0 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link active ps-3" href="{% url 'account_logout' %}">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                    {% if user.is_authenticated %}
+                        <div class="sb-sidenav-menu-heading">Perfil {{ user.username }}</div>
+                        <a class="nav-link ps-3" href="{% url 'user:dashboard' %}">
+                            <div class="sb-nav-link-icon">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                            Dashboard
+                        </a>
+                        
+                        <a class="nav-link" href="{% url 'user:user_update' user.pk %}">
+                            <div class="sb-nav-link-icon">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            Configurações
+                        </a>
+                        
+                        {% if user.is_superuser %}
+                            <!--div class="sb-sidenav-menu-heading">Gestão</div-->
+                            <a class="nav-link" href="{% url 'user:users_list' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                Usuários
+                            
+                            <a class="nav-link" href="{% url 'banco:banco_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-book"></i>
+                                </div>
+                                Bancos
+                            </a>
+
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-id-card"></i>                                    
+                                </div>
+                                Cheques
+                            </a> 
+
+                            <a class="nav-link" href="{% url 'client:client_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                Clientes
+                            </a>                            
+
+                            <a class="nav-link" href="{% url 'fornecedor:fornecedor_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                Fornecedores
+                            </a> 
+                            
+                            <a class="nav-link" href="{% url 'funcionario:funcionario_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                Funcionários
+                            </a>                      
+
+                            <a class="nav-link" href="{% url 'produto:produto_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-tasks"></i>
+                                </div>
+                                Produtos
+                            </a>                       
+
+                            <a class="nav-link" href="{ url 'compra:compra_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </div>
+                                Compras
+                            </a>
+
+                            <a class="nav-link" href="{ url 'compra:ano_dropdown' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-credit-card"></i>
+                                </div>
+                                Contas a Pagar
+                            </a>
+
+                            <a class="nav-link" href="{ url 'venda:venda_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-truck"></i>
+                                </div>
+                                Vendas
+                            </a>
+
+                            <a class="nav-link" href="{ url 'venda:ano_dropdown' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-credit-card"></i>
+                                </div>
+                                Contas a Receber
+                            </a>
+                            
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                Mensal Geral
+                            </a>
+
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-credit-card"></i>
+                                </div>
+                                Caixa do Dia
+                            </a>
+                            
+                            <a class="nav-link" href="{% url 'estoquefisico:estoquefisico_list_create' %}">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-map"></i>
+                                </div>
+                                Estoque Físico
+                            </a>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-map"></i>
+                                </div>
+                                Estoque Fiscal
+                            </a>    
+                            
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="collapse"
+                            id="collapsePages"
+                            aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion"
+                                id="sidenavAccordionPages">
+                                <a class="nav-link collapsed"
+                                href="#"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#pagesCollapseAuth"
+                                aria-expanded="false"
+                                aria-controls="pagesCollapseAuth">
+                                    Categorias
+                                    <div class="sb-sidenav-collapse-arrow">
+                                        <i class="fas fa-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="collapse"
+                                    id="pagesCollapseAuth"
+                                    aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="#">Hotel</a>
+                                        <a class="nav-link" href="#">Hostel</a>
+                                        <a class="nav-link" href="#">Pousada</a>
+                                    </nav>
+                                </div>
+                                <a class="nav-link collapsed"
+                                href="#"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#pagesCollapseError"
+                                aria-expanded="false"
+                                aria-controls="pagesCollapseError">
+                                    Reservas
+                                    <div class="sb-sidenav-collapse-arrow">
+                                        <i class="fas fa-angle-down"></i>
+                                    </div>
+                                </a>
+                                <div class="collapse"
+                                    id="pagesCollapseError"
+                                    aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="#">Adultos</a>
+                                        <a class="nav-link" href="#">Crianças</a>
+                                        <a class="nav-link" href="#">Especiais</a>
+                                    </nav>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+                    <!-- Page content-->
+                    {% block dashboard %}
+                    {% endblock dashboard %}
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer class="footer py-4 bg-light mt-auto">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">
+                    Projeto Cortina de Vidro 2023&copy;
+                </div>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    &middot;
+                    <a href="#">Terms &amp; Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="{% static 'js/jquery.mask.min.js'  %}"></script>
+    <script src="{% static 'js/mascara.js' %}"></script>
+
+{% endblock %}

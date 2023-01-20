@@ -1,0 +1,135 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+    Lista de Compras
+{% endblock title %}
+{% block dashboard %}
+
+
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">            
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="navbar-brand active " aria-current="page" href="#">Lista de Compras</a>
+          </li>                                    
+        </ul>       
+      </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-2">
+    <div class="container-form">
+        <div class="card">
+            <div class="card-header p-1">
+                <div class="row">
+                    <div id="bottom_list" class="col-sm-12">
+                        <div class="row">
+                            <form method="POST">
+                                <a data-toggle="modal" data-target="#exampleModal" class="btn float-end">
+                                    <i class="fas fa-plus-circle fa-2x"></i></a>
+                                <a href="{% url 'compra:compra_create' %}" class="btn float-end">
+                                    <i class="fas fa-plus fa-2x"></i></a>
+                                <div class="modal fade"
+                                        id="exampleModal"
+                                        tabindex="-1"
+                                        role="dialog"
+                                        aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Nova Compra</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% csrf_token %}
+                                                {{ form.non_field_errors }}
+                                                {{ form|crispy }}
+                                                {{ form.media }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="form-group form-button">
+                                                    <input type="submit"
+                                                            name="signup"
+                                                            id="signup"
+                                                            class="form-submit"
+                                                            value="Salvar"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="myTable1" class="table table-striped table-bordered mt-5">
+                        <thead>
+                            <tr>
+                                <th>Data da Compra</th>                                
+                                <th>Nota Fiscal</th>
+                                <th>Código</th>                       
+                                <th>Fornecedor</th>                                
+                                <th>Total da Compra</th>
+                                <th>Compra com Juros</th>
+                                <th>Condição</th>                                
+                                <th>Cadastrar Produtos</th>
+                                <th>Cadastrar Prestações</th><th>Editar</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in object_list %}
+                                <tr>
+                                    <td align="center">
+                                        <a href="{% url 'compra:lista_geral' %}" class="btn">
+                                            <i class="fa fa-tasks"></i>
+                                        </a>
+                                    </td>
+                                    {% comment %} <td align="center">{{ c.data_compra|date:'d/m/Y' }}</td>{% endcomment %}
+                                    <td align="center">{{ c.nota_fs }}</td>
+                                    <td align="center">{{ c.codigo }}</td>
+                                    <td align="center">{{ c.fornecedor }}</td> <td align="center">{{ c.total }}</td>
+                                    <td align="center">{{ c.total }}</td>
+                                    <td align="center">{{ c.status_compra }}</td>
+                                    <td align="center">
+                                        <a href="{% url 'compra:compra_produto_list' c.pk %}" class="btn">
+                                            <i class="fa fa-tasks"></i>
+                                        </a>
+                                    </td>
+                                    <td align="center">
+                                        <a href="{% url 'compra:compra_prestacao_list' c.pk %}" class="btn">
+                                            <i class="fa fa-calculator"></i>
+                                        </a>
+                                    </td>
+
+                                    <td align="center">
+                                        <a href="{% url 'compra:compra_update2' c.pk %}" class="btn">
+                                            <i class="fas fa-user-edit"></i>
+                                        </a>
+                                    </td>
+
+                                    <td align="center">
+                                        <a href="{% url 'compra:compra_delete' c.pk %}" class="btn">
+                                            <i class="fas fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

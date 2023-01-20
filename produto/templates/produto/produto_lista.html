@@ -1,0 +1,84 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+  Lista de Produtos
+{% endblock %}
+{% block dashboard %}
+  <div class="container-fluid mt-2">
+    <div class="container-form">
+      <div class="card">
+        <div class="card-header p-1">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <h2 class="form-title m-2">Lista de Produtos</h2>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table id="myTable1" class="table table-striped table-bordered mt-5">
+              <thead>
+                <tr>
+                  <th>Fornecedor</th>
+                  <th>Código</th>
+                  <th>Mercadoria</th>
+                  <th>NCM</th>
+                  <th>CST</th>
+                  <th>CFOP</th>
+                  <th>Unidade</th>
+                  <th>Peso da Barra</th>
+                  <th>Valor unit</th>
+                  <th>Valor Barra/un</th>
+                  <th colspan="2">ICMS interno</th>
+                  <th>B_calc icms inter st</th>
+                  <th align="center" colspan="2">ICMS inter</th>
+                  <th colspan="2">Dif Al ICMS</th>
+                  <th colspan="2">IPI</th>
+                  <th colspan="3">FRETE</th>
+                  <th>MVA</th>
+                  <th>B_calc st</th>
+                  <th>ST</th>
+                  <th>Custo final barra</th>
+                  <th>Custo fracionado -ml</th>
+                  <th>Preço venda fracionada -ml</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for t in tritubos %}
+                  <tr class="lista_produtos">
+                    <td align="center">{{ t.produto.fornecedor }}</td>
+                    <td align="center">{{ t.produto.codigo }}</td>
+                    <td align="center">{{ t.produto.nome }}</td>
+                    <td align="center">{{ t.produto.ncm }}</td>
+                    <td align="center">{{ t.produto.cst }}</td>
+                    <td align="center">{{ t.produto.cfop }}</td>
+                    <td align="center">{{ t.produto.unimed }}</td>
+                    <td align="center">R$ {{ t.produto.peso_barra }}</td>
+                    <td align="center">R$ {{ t.valor_unitario }}</td>
+                    <td align="center">R$ {{ t.valor_barra_un }}</td>
+                    <td align="center">{{ t.taxa_icms_interno }}</td>
+                    <td align="center">R$ {{ t.base_icms_st }}</td>
+                    <td align="center">R$ {{ t.icms_interno }}</td>
+                    <td align="center">{{ t.taxa_icms_inter }}</td>
+                    <td align="center">R$ {{ t.icms_inter }}</td>
+                    <td align="center">{{ t.ali_dif_icms }}</td>
+                    <td align="center">R$ {{ t.dif_aliq_icms }}</td>
+                    <td align="center">{{ t.taxa_ipi }}</td>
+                    <td align="center">R$ {{ t.ipi }}</td>
+                    <td align="center">{{ t.taxa_frete }}</td>
+                    <td align="center">R$ {{ t.valor_frete }}</td>
+                    <td align="center">R$ {{ t.frete }}</td>
+                    <td align="center">{{ t.mva }}</td>
+                    <td align="center">R$ {{ t.base_calc_st }}</td>
+                    <td align="center">R$ {{ t.st }}</td>
+                    <td align="center">R$ {{ t.custo_final }}</td>
+                    <td align="center">R$ {{ t.custo_frac }}</td>
+                    <td align="center">R$ {{ t.preco_frac }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

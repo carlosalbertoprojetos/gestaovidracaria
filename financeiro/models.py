@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.formats import number_format
-from gestaovidracaria.constantes import STATUS_CHOICES, PGTO_CHOICES
+from tourproject.constantes import STATUS_CHOICES, PGTO_CHOICES
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 
 from produto.models import Produto
-from cliente.models import Cliente
+from client.models import Client
 from fornecedor.models import Fornecedor
 
 
@@ -88,7 +88,7 @@ class CompraPrestacao(models.Model):
 class Venda(models.Model):
     codigo = models.CharField('Código da Venda', max_length=10)
     data = models.DateField('Data da Venda')
-    cliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING)    
+    cliente = models.ForeignKey(Client, on_delete=models.DO_NOTHING)    
     formapgto = models.CharField(
         'Forma de Pagamento', max_length=11, choices=PGTO_CHOICES)
     total = models.DecimalField('Total da Venda', max_digits=10, decimal_places=2, null=True, blank=True, default=0)
@@ -158,4 +158,4 @@ class VendaPrestacao(models.Model):
     
     class Meta:
         verbose_name = 'Prestação'
-        verbose_name_plural = 'Prestações'
+        verbose_name_plural = 'Prestações' 

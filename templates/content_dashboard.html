@@ -1,0 +1,159 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static %}
+{% block title %}
+    Dashboard
+{% endblock title %}
+{% block dashboard %}
+
+
+<div class="container-fluid">
+    <h1>Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">{{ user.username }}</li>
+    </ol>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Clientes</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{% url 'client:client_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Fornecedores</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{% url 'fornecedor:fornecedor_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Produtos</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{% url 'produto:produto_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Compras</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{ url 'compra:compra_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Vendas</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{ url 'venda:venda_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Estoque Físico</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{% url 'estoquefisico:estoquefisico_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Estoque Fiscal</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Mensal Geral</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Caixa Dia</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Bancos</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{% url 'banco:banco_list_create' %}">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Contas a Pagar</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-gradient-primary text-white mb-4">
+                <div class="card-body">Contas a Receber</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">Detalhes</a>
+                    <div class="small text-white">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

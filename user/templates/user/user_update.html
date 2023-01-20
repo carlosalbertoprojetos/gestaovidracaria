@@ -1,0 +1,60 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+    Lista de Usuários
+{% endblock title %}
+{% block dashboard %}
+
+<!--Menu-->
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">            
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>                           
+        </ul>
+        <div class="d-flex">
+          <a href="{% url 'account_change_password' %}">
+            <button class="btn btn-outline-primary" type="submit">Senha</button>
+          </a>     
+        </div>
+        <div class="d-flex">
+            <a href="{% url 'user:user_update' user.pk %}">
+              <button class="btn btn-outline-success" type="submit">Usuário/Email</button>
+            </a>     
+          </div>                    
+      </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-2">
+    <div class="card">
+        <div class="container-form">
+            <div class="card-header">
+                <h2 class="form-title">Editar Cadastro do Usuário</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {{ form|crispy }}
+                    <div class="col-md-12 mb-2">
+                        <div class="form-group form-button">
+                            <input type="submit" class="form-submit" value="Salvar" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

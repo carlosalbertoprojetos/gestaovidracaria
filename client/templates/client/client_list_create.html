@@ -1,0 +1,132 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+    Lista de Clientes
+{% endblock title %}
+{% block dashboard %}
+
+<!--Menu-->
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">            
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="navbar-brand active " aria-current="page" href="#">Lista de Clientes</a>
+          </li>                                    
+        </ul>       
+      </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-2">
+    <div class="container-form">
+        <div class="card">
+            <div class="card-header p-1">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">                        
+                    </div>
+                    <div id="bottom_list" class="col-sm-12 col-md-6">
+                        <div class="row my-3">
+                            <form method="POST">
+                                <a data-toggle="modal" data-target="#exampleModal" class="btn float-end">
+                                    <i class="fas fa-plus-circle fa-2x"></i></a>
+                                <div class="modal fade"
+                                        id="exampleModal"
+                                        tabindex="-1"
+                                        role="dialog"
+                                        aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Novo Cliente</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% csrf_token %}
+                                                {{ form.non_field_errors }}                                                                 
+                                                {{ form|crispy }}
+                                                {{ form.media }}
+                                                                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="form-group form-button">
+                                                    <input type="submit"
+                                                            name="signup"
+                                                            id="signup"
+                                                            class="form-submit"
+                                                            value="Salvar"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="myTable1" class="table table-striped table-bordered mt-5">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>                                
+                                <th>Telefone Principal</th>
+                                <th>Telefone Contato</th>
+                                <th>Email</th>
+                                <th>CPF</th>
+                                <th>CNPJ</th>
+                                <th>Insc Estadual</th>
+                                <th>Obras</th>                        
+                                <th>Editar</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in object_list %}
+                                <tr>
+                                    <td align="center">{{ c.nome_contato }}</td>                                    
+                                    <td align="center">{{ c.tel_principal }}</td>
+                                    <td align="center">{{ c.tel_contato }}</td>
+                                    <td align="center">{{ c.email }}</td>
+                                    <td align="center">{{ c.cpf }}</td>
+                                    <td align="center">{{ c.cnpj }}</td>
+                                    <td align="center">{{ c.insc_estadual }}</td>                          
+                                    
+                                    <td align="center">
+                                        <a href="{% url 'client:obra_list' c.pk %}" class="btn">
+                                            <i class="fa fa-cubes"></i>
+                                        </a>
+                                    </td>
+
+                                    <td align="center">
+                                        <a href="{% url 'client:client_update' c.pk %}" class="btn">
+                                            <i class="fas fa-user-edit"></i>
+                                        </a>
+                                    </td>
+
+                                    <td align="center">
+                                        <a href="{% url 'client:client_delete' c.pk %}" class="btn">
+                                            <i class="fas fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function myFunction() {
+      window.open("http://127.0.0.1:8000/client/list/","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=400");
+    }
+</script>
+
+{% endblock %}

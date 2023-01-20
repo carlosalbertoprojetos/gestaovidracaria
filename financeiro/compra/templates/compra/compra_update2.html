@@ -1,0 +1,146 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+    Editar Compra
+{% endblock %}
+{% block dashboard %}
+
+ <div class="container-fluid mt-2">
+    <div class="container-form">
+      <div class="card p-1">
+        <div class="card-header p-1">
+            <h1 class="m-2">Editar Compra</h1>
+            <form class="post-form mt-2" method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+                <div class="card p-2">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="id_fornecedor">Fornecedor</label>
+                            {{ form.fornecedor }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="id_codigo">Código</label>
+                            {{ form.codigo }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="id_nota_fs">Nota Fiscal</label>
+                            {{ form.nota_fs }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="id_data_compra">Data da Compra</label>
+                            {{ form.data_compra }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="id_status_compra">Condição</label>
+                            {{ form.status_compra }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="id_num_prestacoes">Número de Prestações</label>
+                            {{ form.num_prestacoes }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="id_total">Custo da Compra</label>
+                            {{ form.total }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-2">
+                    <h1>Produtos</h1>
+                    {{ produto_formset.management_form|crispy }}
+                    <table>
+                        {% for form in produto_formset.forms %}
+                        {% if forloop.first %}
+                        <thead>
+                            <tr>
+                                {% for field in form.visible_fields %}
+                                    <th class="text-muted">{{ field.label }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        {% endif %}
+                        <tbody>
+                            <tr id="produto_formset">
+                                {% for field in form.visible_fields %}
+                                <td>
+                                    {% if forloop.first %}
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {{ field.errors.as_ul }}
+                                    {{ field }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card p-2">
+                    <h1>Prestações</h1>
+                    {{ prestacoes_formset.management_form|crispy }}
+                    <table>
+                        {% for form in prestacoes_formset.forms %}
+                        {% if forloop.first %}
+                        <thead>
+                            <tr>
+                                {% for field in form.visible_fields %}
+                                <th class="text-muted">{{ field.label }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        {% endif %}
+                        <tbody>
+                            <tr id="prestacoes_formset">
+                                {% for field in form.visible_fields %}
+                                <td>
+                                    {% if forloop.first %}
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {{ field.errors.as_ul }}
+                                    {{ field }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group form-button">
+                    <input type="submit" name="signup" id="signup" class="form-submit" value="Salvar" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    {% comment %} <script type="text/javascript">
+        addText = 'Adicionar',
+        deleteText = 'Apagar',
+
+        $(function() {
+            $('#produto_formset').formset({
+                prefix: '{{ produto_formset.prefix }}',
+                addText: addText,
+                deleteText: deleteText,
+            });
+        })
+
+        $(function() {
+            $('#prestacoes_formset').formset({
+                prefix: '{{ prestacoes_formset.prefix }}',
+                addText: addText,
+                deleteText: deleteText,
+            });
+        })
+    </script> {% endcomment %}
+{% endblock scripts %}

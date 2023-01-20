@@ -1,0 +1,34 @@
+<table class="table table-striped table-bordered mt-1">
+  <thead>
+    <tr>
+      <th>Vencimento</th>
+      <th>Parcela</th>
+      <th>Valor</th>
+      <th>Forma pgto</th>
+      <th>Pagamento</th>
+      <th>Banco</th>
+      <th>Detalhes</th>
+      <th>Quitado</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in prestacao %}
+      <tr>
+        <td>{{ p.data_venc|date:'d/m/Y' }}</td>
+        <td align="center">{{ p.num_parcela }}/{{ p.venda.num_parcelas }}</td>
+        <td>R$ {{ p.valor_parc }}</td>
+        <td>{{ p.formapgto }}</td>
+        <td>{{ p.banco }}</td>
+        <td>{{ p.data_pgto|date:'d/m/Y' }}</td>
+        <td>{{ p.detalhes }}</td>
+        <td align="center">
+          {% if p.status == True %}
+            <i class="fas fa-check"></i>
+          {% else %}
+            <i class="fas fa-times"></i>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

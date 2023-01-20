@@ -1,0 +1,30 @@
+{% extends 'dashboard.html' %}
+
+
+{% load i18n account static crispy_forms_tags %}
+
+{% block title %} DataTable {% endblock title %}
+
+
+{% block dashboard %}
+
+
+<div class="container-fluid mt-2">
+    <div class="card">
+        <div class="container-form">
+            <div class="card-header">
+                <h2 class="form-title">Cadastrar</h2>
+                <form method="POST" class="register-form">
+                    {% csrf_token %}                    
+                    {{ form.non_field_errors }}
+                    {{ form|crispy}}                    
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Salvar" />
+                    </div>   
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

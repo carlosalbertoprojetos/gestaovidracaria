@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %}
+{% load i18n account static %}
+{% load i18n account static crispy_forms_tags %}
+{% block title %}
+    Prestação da Venda
+{% endblock title %}
+{% block dashboard %}
+
+<script src="{% static 'js/jquery-1.8.2.js' %}"></script>
+
+<div class="card-header">               
+    <form method="POST" enctype="multipart/form-data">
+        <div class="modal fade" id="myModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Prestação</h5>
+                        <!--button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button-->
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        {{ form|crispy }}
+                        {{ form.media }}
+                    </div>                            
+                    <div class="modal-footer">
+                        <div class="form-group form-button">
+                            <input type="submit"
+                                class="form-submit"
+                                value="Salvar"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                    
+    </form>
+</div>
+<script>
+   $(window).on('load',function(){
+    $('#myModal').modal('show'); });
+</script>
+
+{% endblock %}
+

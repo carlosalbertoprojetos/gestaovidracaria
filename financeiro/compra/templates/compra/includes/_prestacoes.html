@@ -1,0 +1,28 @@
+<table class="table table-striped table-bordered mt-1">
+  <thead>
+    <tr>
+      <th>Vencimento</th>
+      <th>Fornecedor</th>
+      <th>Parcela</th>
+      <th>Valor</th>
+      <th>Pagamento</th>
+      <th>Juros</th>
+      <th>Valor pago</th>
+      <th>Banco</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in prestacao %}
+      <tr>
+        <td align="center">{{ p.data_venc|date:'d/m/Y' }}</td>
+        <td>{{ p.compra.fornecedor }}</td>
+        <td align="center">{{ p.num_parcela }}/{{ p.compra.num_prestacoes }}</td>
+        <td>R$ {{ p.valor_parc }}</td>
+        <td align="center">{{ p.data_pgto|date:'d/m/Y' }}</td>
+        <td>{{ p.juros|floatformat:2 }}%</td>
+        <td>R$ {{ p.parc_juros }}</td>
+        <td>{{ p.banco }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
